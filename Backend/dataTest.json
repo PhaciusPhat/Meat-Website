@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "productName": "thịt bò",
+        "productType": "bò"
+    },
+    {
+        "id": 2,
+        "productName": "thịt heo",
+        "productType": "heo"
+    },
+    {
+        "id": 3,
+        "productName": "thịt gà",
+        "productType": "gà"
+    }
+]
