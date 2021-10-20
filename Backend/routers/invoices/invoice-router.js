@@ -5,14 +5,14 @@ const {
   getUserInvoiceList,
   createInvoice,
 } = require("../../controllers/invoice-controller");
+const { authenticate, authorize } = require("../../middlewares/auth/verifyToken-middleware");
 
 const invoiceRouter = express.Router();
 
-invoiceRouter.get("/", getInvoiceList);
-invoiceRouter.get("/:id", getInvoiceDetail);
-invoiceRouter.get("/userIvoices/:id", getUserInvoiceList);
-invoiceRouter.post("/", createInvoice);
-
+invoiceRouter.get("/", authenticate, authorize, getInvoiceList);
+invoiceRouter.get("/:id", authenticate, getInvoiceDetail);
+invoiceRouter.get("/userIvoices/:id", authenticate, getUserInvoiceList);
+invoiceRouter.post("/", authenticate, createInvoice);
 
 module.exports = {
   invoiceRouter,

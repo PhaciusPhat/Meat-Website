@@ -2,14 +2,14 @@ const { Cart, Product } = require("../models");
 
 const getCartList = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { id } = req.user;
     const CartList = await Cart.findAll({
-        where: {
-          UserId: userId,
-        },
+      where: {
+        UserId: id,
+      },
       include: {
         model: Product,
-        as: 'Product'
+        as: "Product",
       },
     });
     return res.status(200).send(CartList);
@@ -21,10 +21,12 @@ const getCartList = async (req, res) => {
 
 const addProductIntoCart = async (req, res) => {
   try {
-    const { userId, productId } = req.body;
+    const { id } = req.user;
+    const { productId } = req.body;
+    //kiem tra san pham
     const cartItem = await Cart.findOne({
       where: {
-        UserId: userId,
+        UserId: id,
         ProductId: productId,
       },
     });
@@ -32,14 +34,13 @@ const addProductIntoCart = async (req, res) => {
       return res.status(400).send("da co sp");
     } else {
       await Cart.create({
-        UserId: userId,
+        UserId: id,
         ProductId: productId,
         Number: 1,
-        IsBuy: false,
       });
       const CartList = await Cart.findAll({
         where: {
-          UserId: userId,
+          UserId: id,
         },
       });
       return res.status(200).send(CartList);
@@ -51,16 +52,17 @@ const addProductIntoCart = async (req, res) => {
 
 const deleteProductInCart = async (req, res) => {
   try {
-    const { userId, productId } = req.body;
+    const { id } = req.user;
+    const { productId } = req.body;
     Cart.destroy({
       where: {
-        UserId: userId,
+        UserId: id,
         ProductId: productId,
       },
     });
     const CartList = await Cart.findAll({
       where: {
-        UserId: userId,
+        UserId: id,
       },
     });
     return res.status(200).send(CartList);

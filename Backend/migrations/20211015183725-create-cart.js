@@ -28,10 +28,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      IsBuy: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

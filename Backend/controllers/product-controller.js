@@ -56,7 +56,6 @@ const createProduct = async (req, res) => {
       TypeId,
     } = req.body;
     const url = `http://localhost:2222/${file.path}`;
-    // return res.send(ProduceNumber)
     await Product.create({
       ProductName,
       ProductPrice,
@@ -74,35 +73,46 @@ const createProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
+  const { file } = req;
   try {
-    const { file } = req;
-    const {
-      ProductName,
-      ProductPrice,
-      ProductNumber,
-      ProductDescribe,
-      TypeId,
-    } = req.body;
     const { id } = req.params;
-    const url = `http://localhost:2222/${file.path}`;
-    await Product.update(
-      {
+    const ProductDetail = await Product.findOne({
+      where: {
+        id,
+      },
+    });
+    if (ProductDetail) {
+      const {
         ProductName,
         ProductPrice,
         ProductNumber,
         ProductDescribe,
-        ProductImage: url,
         TypeId,
-      },
-      {
-        where: {
-          id,
+      } = req.body;
+      const { id } = req.params;
+      const url = `http://localhost:2222/${file.path}`;
+      await Product.update(
+        {
+          ProductName,
+          ProductPrice,
+          ProductNumber,
+          ProductDescribe,
+          ProductImage: url,
+          TypeId,
         },
-      }
-    );
-    const ProductList = await Product.findAll();
-    return res.status(200).send(ProductList);
+        {
+          where: {
+            id,
+          },
+        }
+      );
+      const ProductList = await Product.findAll();
+      return res.status(200).send(ProductList);
+    } else {
+      return res.status(404).send("Not found");
+    }
   } catch (error) {
+    console.log(error)
     return res.status(500).send(error);
   }
 };
@@ -110,13 +120,22 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    await Product.destroy({
+    const ProductDetail = await Product.findOne({
       where: {
         id,
       },
     });
-    const ProductList = await Product.findAll();
-    return res.status(200).send(ProductList);
+    if (ProductDetail) {
+      await Product.destroy({
+        where: {
+          id,
+        },
+      });
+      const ProductList = await Product.findAll();
+      return res.status(200).send(ProductList);
+    } else {
+      return res.status(404).send("Not found");
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);

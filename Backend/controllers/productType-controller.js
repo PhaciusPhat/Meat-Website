@@ -30,6 +30,10 @@ const getProductTypeDetail = async (req, res) => {
 const createProductType = async (req, res) => {
   try {
     const { TypeName } = req.body;
+    const checkTypeName = await ProductType.findOne({ where: { TypeName } });
+    if (checkTypeName) {
+      return res.status(400).send("đã có loại sp này");
+    }
     const ProductTypeDetail = await ProductType.create({ TypeName });
     return res.status(200).send(ProductTypeDetail);
   } catch (error) {
@@ -40,7 +44,12 @@ const createProductType = async (req, res) => {
 const updateProductType = async (req, res) => {
   try {
     const { id } = req.params;
-    await ProductType.update(req.body,{
+    const { TypeName } = req.body;
+    const checkTypeName = await ProductType.findOne({ where: { TypeName } });
+    if (checkTypeName) {
+      return res.status(400).send("đã có loại sp này");
+    }
+    await ProductType.update(TypeName, {
       where: {
         id,
       },
@@ -50,17 +59,22 @@ const updateProductType = async (req, res) => {
   } catch (error) {
     return res.status(500).send(error);
   }
-}
+};
 
 const deleteProductType = async (req, res) => {
   try {
     const { id } = req.params;
-    await ProductType.destroy({
-      where: {
-        id,
-      },
-    });
-    return res.status(200).send("xóa thành công");
+    const checkTypeName = await ProductType.findOne({ where: { id } });
+    if (checkTypeName) {
+      await ProductType.destroy({
+        where: {
+          id,
+        },
+      });
+      const ProductTypeList = await ProductType.findAll();
+      return res.status(200).send(ProductTypeList);
+    }
+    return res.status(404).send("not found");
   } catch (error) {
     return res.status(500).send(error);
   }

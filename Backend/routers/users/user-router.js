@@ -13,13 +13,12 @@ const {
 } = require("../../middlewares/auth/verifyToken-middleware");
 const userRouter = express.Router();
 
-userRouter.get("/", getListUser);
-userRouter.get("/:id", getUserDetail);
+userRouter.get("/", authenticate, authorize, getListUser);
+userRouter.get("/:id", authenticate, getUserDetail);
 userRouter.post("/", createUser);
-userRouter.put("/:id", updateUser);
-userRouter.delete("/:id", deleteUser);
-userRouter.put("/changePassword/", changePass)
-// authenticate, authorize,
+userRouter.put("/:id", authenticate, updateUser);
+userRouter.delete("/:id", authenticate, authorize, deleteUser);
+userRouter.put("/changePassword/", authenticate, changePass);
 module.exports = {
   userRouter,
 };

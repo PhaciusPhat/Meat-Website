@@ -6,6 +6,10 @@ const {
   deleteProductType,
   updateProductType,
 } = require("../../controllers/productType-controller");
+const {
+  authorize,
+  authenticate,
+} = require("../../middlewares/auth/verifyToken-middleware");
 
 const productTypeRouter = express.Router();
 
@@ -14,11 +18,11 @@ productTypeRouter.get("/", getProductTypeList);
 //xem chi tiết loại sp
 productTypeRouter.get("/:id", getProductTypeDetail);
 //thêm loại sp
-productTypeRouter.post("/", createProductType);
+productTypeRouter.post("/", authenticate, authorize, createProductType);
 //sửa loại sp
-productTypeRouter.put("/:id", updateProductType);
+productTypeRouter.put("/:id", authenticate, authorize, updateProductType);
 //xóa loại sp
-productTypeRouter.delete("/:id", deleteProductType);
+productTypeRouter.delete("/:id", authenticate, authorize, deleteProductType);
 
 module.exports = {
   productTypeRouter,

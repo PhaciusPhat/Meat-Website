@@ -3,8 +3,8 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const signIn = async (req, res) => {
-  const { Username, Password } = req.body;
   try {
+    const { Username, Password } = req.body;
     const userLogin = await User.findOne({
       where: {
         Username,
@@ -12,9 +12,10 @@ const signIn = async (req, res) => {
     });
     if (userLogin == null) res.status(404).send("not found");
     else {
+      //kiểm tra password
       const isAuth = bcryptjs.compareSync(Password, userLogin.Password);
       if (isAuth) {
-        //tạo token
+        //tạo payload cho token
         payload = {
           id: userLogin.id,
           Username: userLogin.Username,
@@ -23,7 +24,9 @@ const signIn = async (req, res) => {
           Email: userLogin.Email,
           Address: userLogin.Address,
         };
+        //tạo secret key
         const secretKey = "DOANXEM";
+        //tạo token
         const token = jwt.sign(payload, secretKey, { expiresIn: 10 * 60 * 60 });
         res.status(200).send({
           message: "đăng nhập thành công",

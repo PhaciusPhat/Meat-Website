@@ -8,6 +8,10 @@ const {
   updateProduct,
 } = require("../../controllers/product-controller");
 const {
+  authenticate,
+  authorize,
+} = require("../../middlewares/auth/verifyToken-middleware");
+const {
   uploadImageSingle,
 } = require("../../middlewares/upload/uploadImage-middleware");
 
@@ -20,11 +24,23 @@ productRouter.get("/:id", getProductDetail);
 //xem danh sách sản phẩm theo loại
 productRouter.get("/productOfType/:id", getProductsOfType);
 //thêm sản phẩm
-productRouter.post("/", uploadImageSingle(), createProduct);
+productRouter.post(
+  "/",
+  authenticate,
+  authorize,
+  uploadImageSingle(),
+  createProduct
+);
 //sửa sản phẩm
-productRouter.put("/:id", uploadImageSingle(), updateProduct);
+productRouter.put(
+  "/:id",
+  authenticate,
+  authorize,
+  uploadImageSingle(),
+  updateProduct
+);
 //xóa sản phẩm
-productRouter.delete("/:id", deleteProduct);
+productRouter.delete("/:id", authenticate, authorize, deleteProduct);
 
 module.exports = {
   productRouter,

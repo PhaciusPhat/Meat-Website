@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       UserId: DataTypes.INTEGER,
       ProductId: DataTypes.INTEGER,
       Number: DataTypes.INTEGER,
-      IsBuy: DataTypes.BOOLEAN,
     },
     {
       sequelize,
