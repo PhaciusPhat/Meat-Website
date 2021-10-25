@@ -53,8 +53,7 @@ const createUser = async (req, res) => {
       Email,
       Address,
     });
-    const listUser = await User.findAll();
-    res.status(200).send(listUser);
+    res.status(200).send({message: "Tạo thành công!"});
   } catch (error) {
     res.status(500).send(error);
   }

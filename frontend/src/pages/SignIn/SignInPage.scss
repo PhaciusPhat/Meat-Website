@@ -1,0 +1,66 @@
+$mainColor: #ff105f;
+.signInSection {
+    width: 900px;
+    margin: 0 100px;
+    margin-top: 200px;
+    padding: 50px 20px;
+    border: 1px solid $mainColor;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    box-shadow: 0 0 15px 17px #ff24991f;
+    .signInImg {
+        background-image: url("../../Img/banner2.png");
+        background-size: cover;
+    }
+    img {
+        width: 530px;
+        height: 300px;
+    }
+    .signInContent {
+        text-align: center;
+        h2 {
+            color: $mainColor;
+        }
+        .signInInput {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+            input {
+                border: none;
+                outline: none;
+                border-bottom: 3px solid $mainColor;
+                margin: 10px 45px;
+                margin-bottom: 0px;
+                padding: 5px 0;
+            }:focus{
+                background-color: none;
+            }
+            span{
+                margin: 10px 45px;
+                color: red;
+                font-size: 12px;
+                text-align: left;
+            }
+        }
+        .signInSubmit {
+            display: flex;
+            flex-direction: column;
+            button {
+                margin: 0 40px;
+                border: none;
+                outline: none;
+                color: white;
+                padding: 7px 0;
+                border-radius: 20px;
+                background: linear-gradient(to right, #ff105f, #ffad06);
+            }
+            a {
+                margin-top: 10px;
+                color: $mainColor;
+                text-decoration: none;
+                font-size: 15px;
+            }
+        }
+    }
+}

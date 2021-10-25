@@ -31,6 +31,12 @@ const signIn = async (req, res) => {
         res.status(200).send({
           message: "đăng nhập thành công",
           token,
+          id: userLogin.id,
+          Username: userLogin.Username,
+          Phone: userLogin.Phone,
+          Role: userLogin.Role,
+          Email: userLogin.Email,
+          Address: userLogin.Address,
         });
       } else {
         res.status(400).send("sai pass");

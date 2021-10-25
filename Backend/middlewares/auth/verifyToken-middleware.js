@@ -13,19 +13,23 @@ const authenticate = (req, res, next) => {
       req.user = decode;
       next();
     } else {
-      return res.status(401).send("chưa sign in");
+      return res.status(401).send({
+        message: "chưa đăng nhập",
+      });
     }
   } catch (error) {
-    res.status(401).send(error);
+    res
+      .status(401)
+      .send({ message: "hết hạn đăng nhập vui lòng đăng nhập lại" });
   }
 };
 //kiểm tra phân quyền
 const authorize = (req, res, next) => {
   try {
     const { user } = req;
-    console.log(user.Role)
+    console.log(user.Role);
     if (user.Role != "admin") {
-      res.status(403).send("bạn ko có quyền");
+      res.status(403).send({ message: "bạn ko có quyền" });
     } else {
       next();
     }

@@ -1,0 +1,53 @@
+$mainColor: #ff105f;
+.SignUpContainer {
+    // background-color: rgba(179, 25, 133, 0.472);
+    height: 300px;
+    margin-top: 200px;
+    padding: 50px 200px;
+    .SignUpContent {
+        border: 1px solid $mainColor;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px 140px;
+        box-shadow: 0 0 15px 17px #ff24991f;
+        h4{
+            color: $mainColor;
+        }
+        .SignUpInput{
+            position: relative;
+            i{
+                position: absolute;
+                left: 10px;
+                bottom: 5px;
+                font-size: 25px;
+                border-right: 10;
+                color: $mainColor;
+            }
+            input{
+                display:block;
+                padding: 5px 0;
+                padding-left: 45px;
+                width: 100%;
+                outline: none;
+            }
+        }
+        span{
+            color: red;
+            font-size: 12px;
+        }
+        .SignUpSubmit{
+            text-align: center;
+            button{
+                color: white;
+                border-radius: 20px;
+                padding: 10px 0;
+                width: 100%;
+                border: none;
+                outline: none;
+                background: linear-gradient(to right, #ff105f, #ffad06);
+            }
+        }
+    }
+}

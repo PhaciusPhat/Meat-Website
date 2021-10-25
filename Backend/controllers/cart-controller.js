@@ -31,7 +31,9 @@ const addProductIntoCart = async (req, res) => {
       },
     });
     if (cartItem) {
-      return res.status(400).send("da co sp");
+      return res.status(400).send({
+        message: "đã có sản phẩm này trong giỏ hàng của bạn",
+      });
     } else {
       await Cart.create({
         UserId: id,

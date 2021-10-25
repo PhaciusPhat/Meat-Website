@@ -1,0 +1,101 @@
+.cartContent {
+    margin-top: 30px;
+    h3 {
+        color: red;
+        margin: 30px 0;
+    }
+    .row {
+        .left {
+            .cartList {
+                height: 450px;
+                box-shadow: 0 0 10px rgb(88, 82, 82);
+                overflow-y: scroll;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+                .item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid rgb(129, 66, 66);
+                    padding-bottom: 20px;
+                    img {
+                        width: 100px;
+                        height: 75px;
+                        margin-left: 20px;
+                    }
+                    input {
+                        width: 50%;
+                    }
+                    .check {
+                        width: 150px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        input {
+                            width: 10%;
+                        }
+                    }
+                    .numberCartItem {
+                        width: 100px;
+                    }
+                    .desc {
+                        width: 400px;
+                    }
+                    button {
+                        outline: none;
+                    }
+                    .delCart{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        .right {
+            .billContent {
+                height: 450px;
+                box-shadow: 0 0 10px rgb(88, 82, 82);
+                padding: 10px;
+                input {
+                    width: 100%;
+                }
+                button {
+                    outline: none;
+                }
+                .voucher {
+                    position: relative;
+                    margin-bottom: 20px;
+                    button {
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        background: red;
+                        outline: none;
+                        color: white;
+                    }
+                    span {
+                        position: absolute;
+                        left: 0;
+                        bottom: -18px;
+                        color: red;
+                    }
+                }
+                h4 {
+                    margin-top: 50px;
+                }
+                .buy {
+                    width: 100%;
+                    background: red;
+                    outline: none;
+                    color: white;
+                    border: none;
+                    padding: 10px 0;
+                }
+                p{
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}

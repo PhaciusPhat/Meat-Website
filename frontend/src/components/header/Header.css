@@ -1,0 +1,58 @@
+header {
+  background-color: rgba(190, 100, 100, 0.789);
+  height: 80px;
+  font-size: 18px;
+  padding: 10px 0;
+  box-shadow: 0 0 15px black;
+  z-index: 2021;
+  position: fixed;
+  width: 100%;
+  margin-top: -80px;
+}
+header ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-weight: 600;
+  list-style: none;
+}
+header ul img {
+  width: 150px;
+}
+header ul a {
+  color: white;
+  text-decoration: none;
+  transition: all 0.5s;
+  position: relative;
+}
+header ul :hover {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  transition: all 0.5s;
+  text-shadow: 0 0 10px white;
+}
+header ul a::after {
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  content: "";
+  height: 2px;
+  background-color: white;
+  width: 0%;
+  transition: all 0.5s;
+}
+header ul a.headerNav:hover::after {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  content: "";
+  height: 2px;
+  background-color: whtie;
+  width: 100%;
+  box-shadow: 0 0 10px white;
+  transition: all 0.5s;
+}
+
+/*# sourceMappingURL=Header.css.map */

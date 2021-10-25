@@ -1,0 +1,96 @@
+.banner .bannerImage {
+  position: relative;
+}
+.banner .bannerImage .cover {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.5;
+}
+.banner h1 {
+  position: absolute;
+  left: 30%;
+  bottom: 40%;
+  color: white;
+  font-weight: 600;
+}
+
+.storyContent .first {
+  margin: 100px 0;
+}
+.storyContent .first .desc {
+  padding: 0 50px;
+  text-align: center;
+}
+.storyContent .first .desc span {
+  color: red;
+  font-weight: 600;
+}
+.storyContent .first .imgDesc {
+  margin: 200px 0;
+  background-color: #f3d0d0;
+  height: 300px;
+  display: flex;
+  position: relative;
+}
+.storyContent .first .imgDesc .demoImage {
+  width: 500px;
+  position: absolute;
+  left: -10%;
+  bottom: -40%;
+}
+.storyContent .first .imgDesc .badge {
+  display: block;
+  position: absolute;
+  left: 40%;
+  bottom: -20%;
+}
+.storyContent .first .imgDesc .descContent {
+  position: absolute;
+  right: 15%;
+  bottom: 40%;
+  font-size: 24px;
+}
+.storyContent .first .imgDesc .descContent i {
+  color: red;
+}
+.storyContent .first .imgDesc .descContent span {
+  margin-left: 10px;
+}
+.storyContent h4 {
+  font-weight: 600;
+  color: red;
+  text-align: center;
+  margin-bottom: 100px;
+}
+.storyContent .second .item {
+  width: 100%;
+  height: 450px;
+  background-color: #e21d2a;
+  position: relative;
+  margin: 100px 0;
+}
+.storyContent .second .item img {
+  position: absolute;
+  max-width: 100%;
+  height: 400px;
+  left: -10%;
+  bottom: 5%;
+}
+.storyContent .second .item .content {
+  width: 450px;
+  position: absolute;
+  right: 10%;
+  bottom: 15%;
+  text-align: center;
+  color: white;
+}
+.storyContent .second .item .content h5 {
+  font-size: 22px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid white;
+}
+
+/*# sourceMappingURL=StoryPage.css.map */
