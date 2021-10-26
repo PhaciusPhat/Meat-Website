@@ -17,10 +17,10 @@ function ProductHeader() {
       return (
         <>
           <li>
-            <p  style={{ marginTop: "15px"}}>
+            <a href="/user">
               <i className="fa fa-user" aria-hidden="true"></i>
               <span> Xin Chào {Username}</span>
-            </p>
+            </a>
           </li>
           <li>
             <a

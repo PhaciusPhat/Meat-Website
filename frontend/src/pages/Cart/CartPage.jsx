@@ -68,7 +68,6 @@ function CartPage() {
   };
 
   const inputChange = (e) => {
-    console.log(e.target);
     let { name, size, value } = e.target;
     if (value <= 0) {
       e.target.value = 1;

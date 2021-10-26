@@ -19,12 +19,12 @@ function StoryPage() {
       <section className="storyContent container">
         <div className="first">
           <div className="desc">
-            <h1>THỊT SẠCH MEATDELI - TƯƠI NGON SUỐT 9 NGÀY</h1>
+            <h1>THỊT SẠCH MEATFRESH - TƯƠI NGON SUỐT 9 NGÀY</h1>
             <p>
-              <span>Thịt sạch MEATDeli</span>, từ nguồn heo khỏe, được xử lý và
+              <span>Thịt sạch MEATFRESH</span>, từ nguồn heo khỏe, được xử lý và
               đóng gói khép kín với Công Nghệ Oxy Fresh 9 từ Châu Âu giúp ngăn
               chặn vi khuẩn xâm nhập và tạo môi trường mát lành cho thịt tiếp
-              tục thở. <span>Thịt sạch MEATDeli</span>, tươi ngon suốt 9 ngày vì
+              tục thở. <span>Thịt sạch MEATFRESH</span>, tươi ngon suốt 9 ngày vì
               bữa ăn ngon vô lo cho cả nhà.
             </p>
           </div>
@@ -61,7 +61,7 @@ function StoryPage() {
                 dùng trong thời điểm dịch tả lợn Châu Phi đang hoành hành
               </h5>
               <p>
-                Thịt sạch MEATDeli được sản xuất trong quy trình khép kín: Heo
+                Thịt sạch MEATFRESH được sản xuất trong quy trình khép kín: Heo
                 khoẻ được nuôi theo tiêu chuẩn Global GAP và áp dụng hệ thống
                 kiểm soát 3 tuyến kiểm dịch theo hướng dẫn của bộ NN-PTNT và Cục
                 An toàn thực phẩm - Bộ Y Tế.

@@ -10,9 +10,6 @@ function Footer() {
             <a href="/">Trang Chủ</a>
           </li>
           <li>
-            <a href="/">MEATDeli</a>
-          </li>
-          <li>
             <a href="/">Sản Phẩm</a>
           </li>
           <li>

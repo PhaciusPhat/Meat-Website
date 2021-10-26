@@ -36,11 +36,12 @@ productRouter.put(
   "/:id",
   authenticate,
   authorize,
-  uploadImageSingle(),
   updateProduct
 );
 //xóa sản phẩm
 productRouter.delete("/:id", authenticate, authorize, deleteProduct);
+
+//productRouter
 
 module.exports = {
   productRouter,

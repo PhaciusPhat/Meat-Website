@@ -24,7 +24,7 @@ function HomePage() {
             lượng với giá cả hợp lý, Masan MEAT Life đã hoàn thiện chuỗi giá trị
             đạm động vật từ hệ thống chăn nuôi khép kín đến nhà máy sản xuất
             thức ăn chăn nuôi chất lượng cao, nhà máy chế biến thịt và hệ thống
-            phân phối giữ mát để đảm bảo sản phẩm thịt sạch MEATDeli đến tay
+            phân phối giữ mát để đảm bảo sản phẩm thịt sạch MEATFRESH đến tay
             người tiêu dùng với chất lượng thuần khiết theo công nghệ thịt mát
             từ Châu Âu.
           </p>

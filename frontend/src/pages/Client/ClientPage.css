@@ -1,0 +1,23 @@
+.clientPage {
+  margin-top: 80px;
+  padding: 50px 0;
+}
+.clientPage div {
+  position: relative;
+  margin: 10px 0;
+}
+.clientPage div i {
+  position: absolute;
+  left: 10px;
+  bottom: 5px;
+  font-size: 20px;
+}
+.clientPage div input {
+  width: 100%;
+  padding-left: 35px;
+}
+.clientPage button {
+  width: 100%;
+}
+
+/*# sourceMappingURL=ClientPage.css.map */

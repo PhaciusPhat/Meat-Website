@@ -13,7 +13,7 @@ const getListUser = async (req, res) => {
 //lấy chi tiết user
 const getUserDetail = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.user;
     const userDetail = await User.findOne({
       where: { id },
     });
@@ -53,7 +53,7 @@ const createUser = async (req, res) => {
       Email,
       Address,
     });
-    res.status(200).send({message: "Tạo thành công!"});
+    res.status(200).send({ message: "Tạo thành công!" });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -87,15 +87,18 @@ const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
     const { Phone, Role, Email, Address } = req.body;
-    //ktra email
-    const checkEmail = await User.findOne({ where: { Email } });
-    if (checkEmail) {
-      return res.status(400).send("đã tồn tại email");
-    }
     const userDetail = await User.findOne({
       where: { id },
     });
+
     if (userDetail) {
+      if (Email !== userDetail.Email) {
+        //ktra email
+        const checkEmail = await User.findOne({ where: { Email } });
+        if (checkEmail) {
+          return res.status(400).send("đã tồn tại email");
+        }
+      }
       await User.update(
         { Phone, Role, Email, Address },
         {
@@ -140,7 +143,7 @@ const changePass = async (req, res) => {
           }
         );
         const list = await User.findAll();
-        res.status(200).send(list);
+        res.status(200).send((list).toString());
       } else {
         return res.status(400).send("sai mật khẩu");
       }
@@ -152,6 +155,7 @@ const changePass = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
 module.exports = {
   createUser,
   getListUser,

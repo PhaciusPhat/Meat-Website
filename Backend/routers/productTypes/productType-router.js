@@ -24,6 +24,7 @@ productTypeRouter.put("/:id", authenticate, authorize, updateProductType);
 //xóa loại sp
 productTypeRouter.delete("/:id", authenticate, authorize, deleteProductType);
 
+
 module.exports = {
   productTypeRouter,
 };

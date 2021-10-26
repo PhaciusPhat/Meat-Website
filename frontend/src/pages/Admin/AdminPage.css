@@ -1,0 +1,78 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+html .adminContent,
+body .adminContent {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+html .adminContent .left,
+body .adminContent .left {
+  padding: 50px 20px;
+  background: linear-gradient(to top right, #ff105f, #ffad06);
+}
+html .adminContent .left img,
+body .adminContent .left img {
+  width: 125px;
+  margin-bottom: 50px;
+}
+html .adminContent .left .nav-link,
+body .adminContent .left .nav-link {
+  border: none;
+  margin-bottom: 10px;
+  color: white;
+}
+html .adminContent .left .nav-link.active,
+body .adminContent .left .nav-link.active {
+  border: none;
+  background: none;
+  position: relative;
+}
+html .adminContent .left ::after,
+body .adminContent .left ::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: white;
+  width: 100%;
+  height: 2px;
+}
+html .adminContent .left .nav-tabs,
+body .adminContent .left .nav-tabs {
+  border: none;
+}
+html .adminContent .right,
+body .adminContent .right {
+  padding: 0;
+}
+html .adminContent .right .adminHeader,
+body .adminContent .right .adminHeader {
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  background: linear-gradient(to bottom left, #ff105f, #ffad06);
+  display: flex;
+  justify-content: flex-end;
+  align-self: center;
+}
+html .adminContent .right .adminHeader ul,
+body .adminContent .right .adminHeader ul {
+  margin: auto 0;
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  color: white;
+  font-size: 600;
+}
+html .adminContent .right .adminHeader ul a,
+body .adminContent .right .adminHeader ul a {
+  color: white;
+  font-size: 600;
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=AdminPage.css.map */

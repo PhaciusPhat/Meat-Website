@@ -20,7 +20,7 @@ export const signInAction = (account, history) => {
         payload: res.data,
       });
       console.log("localStorage: ", localStorage);
-      history.push("/");
+      history.push("/list-product");
     } catch (error) {
       if (error !== undefined) {
         if (error.response.status === 404) {

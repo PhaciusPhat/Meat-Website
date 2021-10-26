@@ -11,6 +11,7 @@ const uploadImageSingle = () => {
   const upload = multer({
     storage,
     fileFilter: (req, file, callback) => {
+      console.log(file)
       const extensionImageList = ["png", "jpg", "jpeg"];
       const extension = file.originalname.split(".");
       const isCheck = extensionImageList.includes(
@@ -30,10 +31,3 @@ const uploadImageSingle = () => {
 module.exports = {
   uploadImageSingle,
 };
-
-// const callback = (err, value) => {
-//     if(err){
-//         throw new Error(err);
-//     }
-//     return value;
-// }

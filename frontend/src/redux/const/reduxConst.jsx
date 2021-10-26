@@ -10,3 +10,9 @@ export const GET_PRODUCTTYPE_LIST = "GET_PRODUCTTYPE_LIST";
 export const GET_CART_LIST = "GET_CART_LIST";
 //get list cart
 export const BUY = "BUY";
+//get all invoice
+export const GET_INVOICE_LIST = "GET_INVOICE_LIST";
+//get all user
+export const GET_USER_LIST = "GET_USER_LIST";
+//get detail user 
+export const GET_USER_DETAIL = "GET_USER_DETAIL";

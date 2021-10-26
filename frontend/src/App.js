@@ -10,6 +10,8 @@ import ListProductPage from "./pages/ListProduct/ListProductPage";
 import CartPage from './pages/Cart/CartPage';
 import Guard from "./decentralization/Guard";
 import AdminPage from "./pages/Admin/AdminPage";
+import ClientPage from "./pages/Client/ClientPage";
+import NotFound from "./pages/404/NotFound";
 
 function App() {
   return (
@@ -32,11 +34,13 @@ function App() {
           <Route path="/list-product" exact={true}>
             <ListProductPage />
           </Route>
-          {/* Product (delay) */}
-          {/* <Route path="/product/:id" exact={true}></Route> */}
           {/* Cart */}
           <Route path="/cart">
             <CartPage/>
+          </Route>
+          {/* Client */}
+          <Route path="/user">
+            <ClientPage/>
           </Route>
           {/* Sign In */}
           <Route path="/sign-in" exact={true}>
@@ -46,10 +50,15 @@ function App() {
           <Route path="/sign-up" exact={true}>
             <SignUpPage />
           </Route>
+          {/* Admin */}
           <Route path="/super-admin" exact={true}>
             <Guard>
               <AdminPage/>
             </Guard>
+          </Route>
+           {/* else */}
+           <Route path="/*" exact={true}>
+            <NotFound/>
           </Route>
         </Switch>
       </BrowserRouter>

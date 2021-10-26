@@ -63,7 +63,6 @@ export const getCartListAction = () => {
           token: token,
         },
       });
-      console.log(res.data);
       const cartList = [];
       res.data.forEach((element) => {
         cartList.push({

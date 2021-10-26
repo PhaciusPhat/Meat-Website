@@ -10,12 +10,10 @@ app.use(express.static(publicPathDirectory));
 // chuyển req sang json
 app.use(express.json());
 
-
 app.use("/router", router);
 app.get("/", (req, res) => {
   res.send("hello world");
 });
-
 app.listen(port, () => {
   console.log(`Running at port ${port}`);
 });

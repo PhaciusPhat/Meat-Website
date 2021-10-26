@@ -1,0 +1,102 @@
+.AccountContent {
+  margin: 20px;
+  background-color: #ff106080;
+  box-shadow: 0 0 15px #ffad06;
+  height: 850px;
+  border-radius: 20px;
+  padding: 10px 20px;
+  color: white;
+}
+.AccountContent h3 {
+  font-size: 40px;
+  text-align: center;
+}
+.AccountContent .AccountNumber {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+}
+.AccountContent .AccountNumber .item {
+  height: 200px;
+  width: 500px;
+  background: linear-gradient(to bottom right, #ffad06, yellow);
+  border-radius: 50px;
+  padding: 30px;
+  font-size: 40px;
+  font-weight: 600;
+  text-align: center;
+}
+.AccountContent .InvoiceTable {
+  margin-top: 30px;
+  border: 1px solid white;
+  height: 500px;
+  overflow-y: scroll;
+}
+.AccountContent .InvoiceTable .item {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid white;
+}
+.AccountContent .InvoiceTable .item .itemDiv {
+  width: 320px;
+  font-size: 20px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  margin-bottom: 0;
+  padding: 5px 0;
+}
+.AccountContent .InvoiceTable .title {
+  background-color: white;
+  color: #ff106080;
+}
+.AccountContent .FindTable {
+  margin-top: 30px;
+  border: 1px solid white;
+  height: 100px;
+  overflow-y: scroll;
+}
+.AccountContent .FindTable .item {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid white;
+}
+.AccountContent .FindTable .item .itemDiv {
+  width: 320px;
+  font-size: 20px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  margin-bottom: 0;
+  padding: 5px 0;
+}
+.AccountContent .FindTable .title {
+  background-color: white;
+  color: #ff106080;
+}
+.AccountContent .addAcc {
+  text-align: center;
+  margin-top: 10px;
+}
+.AccountContent .addAcc button {
+  width: 30%;
+}
+
+.modelInput {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.modelInput div input {
+  width: 100%;
+}
+.modelInput div span {
+  color: red;
+}
+
+/*# sourceMappingURL=AdminAccount.css.map */

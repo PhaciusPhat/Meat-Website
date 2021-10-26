@@ -38,3 +38,64 @@ export const getProductListAction = () => {
     }
   };
 };
+
+export const delProductAction = (id) => {
+  return async (dispatch) => {
+    try {
+      const token = JSON.parse(localStorage.token);
+      const res = await axios({
+        method: "delete",
+        url: `http://localhost:2222/router/product/${id}`,
+        headers: {
+          token: token,
+        },
+      })
+      alert("xóa thành công");
+      window.location.reload();
+    } catch (error) {
+      alert("Sản phẩm này đã được mua không thể xóa");
+    }
+  }
+}
+
+export const addProductAction = (product) => {
+  return async (dispatch) => {
+    try {
+      const token = JSON.parse(localStorage.token);
+      const res = await axios({
+        method: "post",
+        url: `http://localhost:2222/router/product/`,
+        headers: {
+          token: token,
+        },
+        data: product
+      })
+      alert("thêm thành công");
+      window.location.reload();
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+}
+
+
+
+export const updateProductAction = (id, product) => {
+  return async (dispatch) => {
+    try {
+      const token = JSON.parse(localStorage.token);
+      const res = await axios({
+        method: "put",
+        url: `http://localhost:2222/router/product/${id}`,
+        headers: {
+          token: token,
+        },
+        data: product
+      })
+      alert("cập nhật thành công");
+      window.location.reload();
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+}

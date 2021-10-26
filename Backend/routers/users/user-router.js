@@ -3,9 +3,9 @@ const {
   getListUser,
   createUser,
   deleteUser,
-  changePass,
   updateUser,
   getUserDetail,
+  changePass,
 } = require("../../controllers/user-controller");
 const {
   authenticate,
@@ -14,11 +14,13 @@ const {
 const userRouter = express.Router();
 
 userRouter.get("/", authenticate, authorize, getListUser);
-userRouter.get("/:id", authenticate, getUserDetail);
+userRouter.get("/user-detail", authenticate, getUserDetail);
 userRouter.post("/", createUser);
 userRouter.put("/:id", authenticate, updateUser);
 userRouter.delete("/:id", authenticate, authorize, deleteUser);
-userRouter.put("/changePassword/", authenticate, changePass);
+
+userRouter.put("/change-password/", (req,res,next)=>{res.send((123).toString())} ,changePass);
+
 module.exports = {
   userRouter,
 };

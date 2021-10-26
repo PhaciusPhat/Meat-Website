@@ -31,14 +31,26 @@ function ListProductPage() {
 
   const renderProductList = (id) => {
     return productList.map((product) => {
+      let disabled;
+      let content;
+      if (product.ProductNumber === 0) {
+        content = "Hết hàng";
+        disabled = true;
+      } else {
+        disabled = false;
+        content = "Thêm vào giỏ hàng";
+      }
       if (product.TypeId === id) {
         return (
           <div className="product" key={product.id}>
             <img src={product.ProductImage} alt="" />
             <p className="name">{product.ProductName}</p>
             <p className="price">{product.ProductPrice}VNĐ</p>
-            <button onClick={() => addProductIntoCart(product.id)}>
-              Thêm vào giỏ hàng
+            <button
+              disabled={disabled}
+              onClick={() => addProductIntoCart(product.id)}
+            >
+              {content}
             </button>
           </div>
         );
@@ -46,10 +58,10 @@ function ListProductPage() {
     });
   };
   const addProductIntoCart = (id) => {
-    if(localStorage.Username !== undefined){
+    if (localStorage.Username !== undefined) {
       dispatch(addCartAction(id, history));
-    } else{
-      alert("Vui lòng đăng nhập")
+    } else {
+      alert("Vui lòng đăng nhập");
     }
   };
 
@@ -62,7 +74,7 @@ function ListProductPage() {
     <>
       <ProductHeader />
       <div className="banner">
-        <img src="./Img/banner4.png" alt="banner1" />
+        <img src="./Img/banner4.png" style={{ width: "100%" }} alt="banner1" />
       </div>
       <div className="container">{renderProductTypeContainer()}</div>
       <Footer />

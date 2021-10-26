@@ -48,6 +48,7 @@ const getProductsOfType = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const { file } = req;
+    console.log(file);
     const {
       ProductName,
       ProductPrice,
@@ -73,7 +74,6 @@ const createProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  const { file } = req;
   try {
     const { id } = req.params;
     const ProductDetail = await Product.findOne({
@@ -81,23 +81,21 @@ const updateProduct = async (req, res) => {
         id,
       },
     });
+    const {
+      ProductName,
+      ProductPrice,
+      ProductNumber,
+      ProductDescribe,
+      TypeId,
+    } = req.body;
+
     if (ProductDetail) {
-      const {
-        ProductName,
-        ProductPrice,
-        ProductNumber,
-        ProductDescribe,
-        TypeId,
-      } = req.body;
-      const { id } = req.params;
-      const url = `http://localhost:2222/${file.path}`;
       await Product.update(
         {
           ProductName,
           ProductPrice,
           ProductNumber,
           ProductDescribe,
-          ProductImage: url,
           TypeId,
         },
         {
@@ -106,13 +104,13 @@ const updateProduct = async (req, res) => {
           },
         }
       );
-      const ProductList = await Product.findAll();
-      return res.status(200).send(ProductList);
+
+      return res.status(200).send("..");
     } else {
       return res.status(404).send("Not found");
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).send(error);
   }
 };
