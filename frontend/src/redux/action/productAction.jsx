@@ -30,11 +30,7 @@ export const getProductListAction = () => {
           payload: res.data,
       })
     } catch (error) {
-      if(error){
-        if (error.response.status === 401) {
-          alert("Đăng nhập hết hạn");
-        }
-      }
+      
     }
   };
 };

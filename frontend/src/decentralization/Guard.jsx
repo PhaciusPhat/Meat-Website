@@ -9,7 +9,7 @@ function Guard(props) {
   if (Role === "admin") {
     return props.children;
   } else {
-    alert("Không có quyền mà đòi vào??? Nghĩ sao vậy :]] | Biến")
+    alert("Không có quyền mà đòi vào??? Nghĩ sayaro vậy :]] | Biến")
     return <Redirect to="/" />;
   }
 }

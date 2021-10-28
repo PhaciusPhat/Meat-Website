@@ -120,8 +120,13 @@ export const updateInfo = (id, info) => {
       alert("Thay Đổi thông tin thành công!!");
       window.location.reload();
     } catch (error) {
-      console.log(error);
-      alert("Lỗi");
+      if (error) {
+        if (error.response.status === 400) {
+          alert("Email này đã có tài khoản khác sử dụng");
+        } else {
+          alert("Lỗi");
+        }
+      }
     }
   };
 };
