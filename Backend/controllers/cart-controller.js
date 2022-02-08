@@ -2,10 +2,10 @@ const { Cart, Product } = require("../models");
 
 const getCartList = async (req, res) => {
   try {
-    const { id } = req.user;
+    const { Username } = req.user;
     const CartList = await Cart.findAll({
       where: {
-        UserId: id,
+        Username,
       },
       include: {
         model: Product,
@@ -14,38 +14,34 @@ const getCartList = async (req, res) => {
     });
     return res.status(200).send(CartList);
   } catch (error) {
-    console.log(error);
     return res.status(500).send(error);
   }
 };
 
 const addProductIntoCart = async (req, res) => {
   try {
-    const { id } = req.user;
+    const { Username } = req.user;
     const { productId } = req.body;
     //kiem tra san pham
     const cartItem = await Cart.findOne({
       where: {
-        UserId: id,
+        Username,
         ProductId: productId,
       },
     });
     if (cartItem) {
-      return res.status(400).send({
-        message: "đã có sản phẩm này trong giỏ hàng của bạn",
-      });
+      await Cart.update(
+        { Number: cartItem.Number + 1 },
+        { where: { Username, ProductId: productId } }
+      );
+      return res.status(200).send("Add to cart success");
     } else {
       await Cart.create({
-        UserId: id,
+        Username,
         ProductId: productId,
         Number: 1,
       });
-      const CartList = await Cart.findAll({
-        where: {
-          UserId: id,
-        },
-      });
-      return res.status(200).send(CartList);
+      return res.status(200).send("Add to cart success");
     }
   } catch (error) {
     return res.status(500).send(error);
@@ -54,20 +50,16 @@ const addProductIntoCart = async (req, res) => {
 
 const deleteProductInCart = async (req, res) => {
   try {
-    const { id } = req.user;
-    const { productId } = req.body;
-    Cart.destroy({
-      where: {
-        UserId: id,
-        ProductId: productId,
-      },
-    });
-    const CartList = await Cart.findAll({
-      where: {
-        UserId: id,
-      },
-    });
-    return res.status(200).send(CartList);
+    const { Username } = req.user;
+    const { DelList } = req.body;
+    for (let index = 0; index < DelList.length; index++) {
+      await Cart.destroy({
+        where: {
+          Username,
+          ProductId: DelList[index].ProductId,
+        },
+      });
+    }
   } catch (error) {
     return res.status(500).send(error);
   }

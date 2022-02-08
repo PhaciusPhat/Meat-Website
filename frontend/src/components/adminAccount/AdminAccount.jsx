@@ -8,7 +8,7 @@ import {
   delAccAction,
   getAccountListAction,
   updateAccAction,
-} from "./../../redux/action/accountAction";
+} from "../../redux/action/accountAction";
 function AdminAccount() {
   const dispatch = useDispatch();
   const accountList = useSelector((state) => state.accountReducer.accountList);

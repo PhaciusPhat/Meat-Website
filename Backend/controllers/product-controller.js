@@ -1,3 +1,4 @@
+const { makeid } = require("../general-variable");
 const { Product } = require("../models");
 
 const getProductList = async (req, res) => {
@@ -11,10 +12,10 @@ const getProductList = async (req, res) => {
 
 const getProductDetail = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { ProductId } = req.query;
     const ProductDetail = await Product.findOne({
       where: {
-        id,
+        ProductId,
       },
     });
     if (ProductDetail) {
@@ -29,10 +30,10 @@ const getProductDetail = async (req, res) => {
 
 const getProductsOfType = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { ProductTypeId } = req.query;
     const ProductsOfType = await Product.findAll({
       where: {
-        TypeId: id,
+        ProductTypeId,
       },
     });
     if (ProductsOfType) {
@@ -48,25 +49,25 @@ const getProductsOfType = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const { file } = req;
-    console.log(file);
     const {
       ProductName,
       ProductPrice,
       ProductNumber,
       ProductDescribe,
-      TypeId,
+      ProductTypeId,
     } = req.body;
-    const url = `http://localhost:2222/${file.path}`;
+    let url = `http://localhost:2222/${file.path}`;
+    url = url.replace(/\\/g, "/");
     await Product.create({
+      ProductId: "PD_" + makeid(10),
       ProductName,
       ProductPrice,
       ProductNumber,
       ProductDescribe,
       ProductImage: url,
-      TypeId,
+      ProductTypeId,
     });
-    const ProductList = await Product.findAll();
-    return res.status(200).send(ProductList);
+    return res.status(200).send("create success");
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -75,10 +76,10 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { ProductId } = req.query;
     const ProductDetail = await Product.findOne({
       where: {
-        id,
+        ProductId,
       },
     });
     const {
@@ -86,7 +87,7 @@ const updateProduct = async (req, res) => {
       ProductPrice,
       ProductNumber,
       ProductDescribe,
-      TypeId,
+      ProductTypeId,
     } = req.body;
 
     if (ProductDetail) {
@@ -96,16 +97,16 @@ const updateProduct = async (req, res) => {
           ProductPrice,
           ProductNumber,
           ProductDescribe,
-          TypeId,
+          ProductTypeId,
         },
         {
           where: {
-            id,
+            ProductId,
           },
         }
       );
 
-      return res.status(200).send("..");
+      return res.status(200).send("update success");
     } else {
       return res.status(404).send("Not found");
     }
@@ -117,20 +118,19 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { ProductId } = req.query;
     const ProductDetail = await Product.findOne({
       where: {
-        id,
+        ProductId,
       },
     });
     if (ProductDetail) {
       await Product.destroy({
         where: {
-          id,
+          ProductId,
         },
       });
-      const ProductList = await Product.findAll();
-      return res.status(200).send(ProductList);
+      return res.status(200).send("delete success");
     } else {
       return res.status(404).send("Not found");
     }

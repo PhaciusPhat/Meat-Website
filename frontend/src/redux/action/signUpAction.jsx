@@ -1,28 +1,34 @@
 import axios from "axios";
 import { SignUp } from "../const/reduxConst";
-
+import swal from "sweetalert";
 export const signUnAction = (account, history) => {
   return async (dispatch) => {
     try {
       const res = await axios({
-        url: "http://localhost:2222/router/user/",
+        url: "http://localhost:2222/router/auth/sign-up",
         method: "POST",
         data: account,
       });
-      const { message } = res.data;
-      alert(message);
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("userInfo",  JSON.stringify(res.data.userInfo));
+      dispatch({
+        type: SignUp,
+        payload: res.data,
+      });
       dispatch({
         type: SignUp,
         payload: account,
       });
-      history.push("/sign-in");
+      swal("", "Đăng Ký Thành Công", "success").then(() => {
+        history.push("/list-product");
+      });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       if (error !== undefined) {
         if (error.response.status === 400) {
-          alert("Đã tồn tại tại khoản có email hoặc tên tài khoản này");
+          swal("", "Đã tồn tại tại khoản có email hoặc tên tài khoản này", "error");
         } else {
-          alert("Lỗi");
+          swal("", "Server Đang Cố Vấn Đề", "error");
         }
       }
     }

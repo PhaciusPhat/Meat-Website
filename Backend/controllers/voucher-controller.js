@@ -3,7 +3,7 @@ const { Voucher } = require("../models");
 const getVoucherList = async (req, res) => {
   try {
     const VoucherList = await Voucher.findAll();
-    res.status(200).send(VoucherList);
+    return res.status(200).send(VoucherList);
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -11,10 +11,10 @@ const getVoucherList = async (req, res) => {
 
 const getVoucherDetail = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { VoucherCode } = req.query;
     const VoucherDetail = await Voucher.findOne({
       where: {
-        id,
+        VoucherCode,
       },
     });
     if (VoucherDetail) {
@@ -39,8 +39,8 @@ const createVoucher = async (req, res) => {
     const checkVoucher = await Voucher.findOne({
       where: { VoucherCode },
     });
-    if(checkVoucher){
-      return res.status(500).send("da ton tai voucher co code nay")
+    if (checkVoucher) {
+      return res.status(500).send("voucher already exists");
     }
     await Voucher.create({
       VoucherCode,
@@ -49,8 +49,7 @@ const createVoucher = async (req, res) => {
       VoucherEndDay,
       VoucherDecrease,
     });
-    const VoucherList = await Voucher.findAll();
-    return res.status(200).send(VoucherList);
+    return res.status(200).send("create success");
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -58,29 +57,29 @@ const createVoucher = async (req, res) => {
 
 const updateVoucher = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { VoucherCode } = req.query;
     const VoucherDetail = await Voucher.findOne({
       where: {
-        id,
+        VoucherCode,
       },
     });
     if (VoucherDetail) {
       const {
-        VoucherCode,
+        VoucherCodeNew,
         VoucherContent,
         VoucherStartDay,
         VoucherEndDay,
         VoucherDecrease,
       } = req.body;
       const checkVoucher = await Voucher.findOne({
-        where: { VoucherCode },
+        where: { VoucherCode: VoucherCodeNew },
       });
-      if(checkVoucher){
-        return res.status(500).send("da ton tai voucher co code nay")
+      if (checkVoucher) {
+        return res.status(500).send("voucher already exists");
       }
       await Voucher.update(
         {
-          VoucherCode,
+          VoucherCode: VoucherCodeNew,
           VoucherContent,
           VoucherStartDay,
           VoucherEndDay,
@@ -88,12 +87,11 @@ const updateVoucher = async (req, res) => {
         },
         {
           where: {
-            id,
+            VoucherCode,
           },
         }
       );
-      const VoucherList = await Voucher.findAll();
-      return res.status(200).send(VoucherList);
+      return res.status(200).send("update success");
     } else {
       return res.status(404).send("Not found");
     }
@@ -105,24 +103,22 @@ const updateVoucher = async (req, res) => {
 
 const deleteVoucher = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { VoucherCode } = req.query;
     const VoucherDetail = await Voucher.findOne({
       where: {
-        id,
+        VoucherCode,
       },
     });
     if (VoucherDetail) {
       await Voucher.destroy({
         where: {
-          id,
+          VoucherCode,
         },
       });
-      const VoucherList = await Voucher.findAll();
-      return res.status(200).send(VoucherList);
-    } else{
+      return res.status(200).send("delete success");
+    } else {
       return res.status(404).send("Not found");
     }
-    
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);

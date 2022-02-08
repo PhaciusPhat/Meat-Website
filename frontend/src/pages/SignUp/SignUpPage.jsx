@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { signUnAction } from "../../redux/action/signUpAction";
-import "./SignUpPage.css";
+import "./SignUpPage.scss";
+import { Link } from "react-router-dom";
 function SignUpPage() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -27,12 +28,17 @@ function SignUpPage() {
     return re.test(String(email).toLowerCase());
   }
 
+  function validatePhone(phone) {
+    const re = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+    return re.test(phone);
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (value.trim() === "") {
       setError({
         ...error,
-        [name]: "Không được bỏ trống",
+        [name]: "*",
       });
     } else {
       setError({
@@ -51,13 +57,13 @@ function SignUpPage() {
     let check = true;
     let temp = { ...error };
     for (const key in account) {
-      if (account[key].trim() === "") {
+      if (account[key].trim() === "" || account[key].trim().length < 5) {
         check = false;
-        temp[key] = "Không được bỏ trống";
+        temp[key] = "*";
       } else {
         if (key === "RePassWord") {
           if (account[key] !== account.Password) {
-            temp[key] = "Không trùng mật khẩu";
+            temp[key] = "!";
             check = false;
           } else {
             setError({
@@ -68,7 +74,18 @@ function SignUpPage() {
         }
         if (key === "Email") {
           if (!validateEmail(account[key])) {
-            temp[key] = "Email sai định dạng";
+            temp[key] = "!";
+            check = false;
+          } else {
+            setError({
+              ...error,
+              [key]: "",
+            });
+          }
+        }
+        if (key === "Phone") {
+          if (!validatePhone(account[key])) {
+            temp[key] = "!";
             check = false;
           } else {
             setError({
@@ -90,21 +107,27 @@ function SignUpPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      let newAccount = {
-        ...account,
-        Address: null,
-        Role: "client",
-      };
-      dispatch(signUnAction(newAccount, history));
+      dispatch(signUnAction(account, history));
     }
   };
 
   return (
-    <div className="container">
-      <div className="SignUpContainer">
+    <div className="SignUpContainer">
+      <div className="SignUpSection">
+        <div className="SignUpNavigation">
+          <Link to="/">
+            <i className="fas fa-home"></i>Trang Chủ
+          </Link>
+          <Link className="btn" to="/sign-in">
+            Đăng Nhập
+          </Link>
+          <Link className="btn btn-sign-up" to="/sign-up">
+            Đăng Ký
+          </Link>
+        </div>
         <form className="SignUpContent">
           <h4>Đăng Ký Tài Khoản</h4>
-          <div>
+          <div className="SignUpInputSection">
             <div className="SignUpInput">
               <i className="fa fa-user" aria-hidden="true"></i>
               <input
@@ -112,10 +135,10 @@ function SignUpPage() {
                 name="Username"
                 placeholder="Tài khoản"
               />
+              <span>{error.Username}</span>
             </div>
-            <span>{error.Username}</span>
           </div>
-          <div>
+          <div className="SignUpInputSection">
             <div className="SignUpInput">
               <i className="fa fa-lock" aria-hidden="true"></i>
               <input
@@ -124,10 +147,10 @@ function SignUpPage() {
                 type="password"
                 placeholder="Mật Khẩu"
               />
+              <span>{error.Password}</span>
             </div>
-            <span>{error.Password}</span>
           </div>
-          <div>
+          <div className="SignUpInputSection">
             <div className="SignUpInput">
               <i className="fa fa-lock" aria-hidden="true"></i>
               <input
@@ -136,10 +159,10 @@ function SignUpPage() {
                 type="password"
                 placeholder="Nhập Lại Mật Khẩu"
               />
+              <span>{error.RePassWord}</span>
             </div>
-            <span>{error.RePassWord}</span>
           </div>
-          <div>
+          <div className="SignUpInputSection">
             <div className="SignUpInput">
               <i className="fa fa-phone" aria-hidden="true"></i>
               <input
@@ -148,21 +171,24 @@ function SignUpPage() {
                 type="number"
                 placeholder="Điện thoại"
               />
+              <span>{error.Phone}</span>
             </div>
-            <span>{error.Phone}</span>
           </div>
-          <div>
+          <div className="SignUpInputSection">
             <div className="SignUpInput">
               <i className="fas fa-mail-bulk"></i>
               <input onChange={handleChange} name="Email" placeholder="Email" />
+              <span>{error.Email}</span>
             </div>
-            <span>{error.Email}</span>
           </div>
           <div className="SignUpSubmit">
             <button type="submit" onClick={handleSubmit}>
               Đăng ký
             </button>
-            <a href="/sign-in">Đã có tài khoản? Đăng nhập</a>
+            <hr />
+            <span>
+              Đã có tài khoản?<Link to="/sign-in">Đăng nhập</Link>
+            </span>
           </div>
         </form>
       </div>

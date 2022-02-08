@@ -1,10 +1,10 @@
 import axios from "axios";
 import { GET_CART_LIST } from "../const/reduxConst";
-
+import swal from "sweetalert";
 export const addCartAction = (id, history) => {
   return async (dispatch) => {
     try {
-      const token = JSON.parse(localStorage.token);
+      const token = localStorage.token;
       const product = {
         productId: id,
       };
@@ -16,12 +16,17 @@ export const addCartAction = (id, history) => {
         },
         data: product,
       });
-      alert("thêm sản phẩm vào giỏ hàng thành công");
+      swal("", "thêm sản phẩm vào giỏ hàng thành công", "success");
     } catch (error) {
-      alert(error.response.data.message);
-      if (error) {
+      if (error !== undefined) {
         if (error.response.status === 401) {
-          history.push("/sign-in");
+          swal("", "hết hạn đăng nhập, vui lòng đăng nhập lại", "warning").then(
+            () => {
+              history.push("/sign-in");
+            }
+          );
+        } else {
+          swal("", "Server có vấn đề", "error");
         }
       }
     }
@@ -55,7 +60,7 @@ export const delCartAction = (id) => {
 export const getCartListAction = () => {
   return async (dispatch) => {
     try {
-      const token = JSON.parse(localStorage.token);
+      const token = localStorage.getItem('token');
       const res = await axios({
         method: "GET",
         url: "http://localhost:2222/router/cart/",
@@ -66,7 +71,7 @@ export const getCartListAction = () => {
       const cartList = [];
       res.data.forEach((element) => {
         cartList.push({
-          ProductId: element.Product.id,
+          ProductId: element.Product.ProductId,
           Number: element.Number,
           ProductName: element.Product.ProductName,
           ProductPrice: element.Product.ProductPrice,
@@ -81,7 +86,7 @@ export const getCartListAction = () => {
     } catch (error) {
       if (error) {
         if (error.response.status === 401) {
-          alert("Vui lòng đăng nhập để thực hiện tính năng này");
+          swal("", "Vui lòng đăng nhập để thực hiện tính năng này", "warning");
         }
       }
     }

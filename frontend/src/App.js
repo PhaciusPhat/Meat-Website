@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import SignInPage from "./pages/SignIn/SignInPage";
 import SignUpPage from "./pages/SignUp/SignUpPage";

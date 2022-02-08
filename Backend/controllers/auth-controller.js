@@ -10,14 +10,14 @@ const signIn = async (req, res) => {
         Username,
       },
     });
-    if (userLogin == null) res.status(404).send("not found");
+    if (userLogin == null)
+      return res.status(404).send("not exits this account");
     else {
       //kiểm tra password
       const isAuth = bcryptjs.compareSync(Password, userLogin.Password);
       if (isAuth) {
         //tạo payload cho token
         payload = {
-          id: userLogin.id,
           Username: userLogin.Username,
           Phone: userLogin.Phone,
           Role: userLogin.Role,
@@ -28,25 +28,69 @@ const signIn = async (req, res) => {
         const secretKey = "DOANXEM";
         //tạo token
         const token = jwt.sign(payload, secretKey, { expiresIn: 10 * 60 * 60 });
-        res.status(200).send({
-          message: "đăng nhập thành công",
+        return res.status(200).send({
+          message: "login success",
           token,
-          id: userLogin.id,
-          Username: userLogin.Username,
-          Phone: userLogin.Phone,
-          Role: userLogin.Role,
-          Email: userLogin.Email,
-          Address: userLogin.Address,
+          userInfo: payload,
         });
       } else {
-        res.status(400).send("sai pass");
+        return res.status(400).send("wrong pass");
       }
     }
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send(error);
+  }
+};
+
+const signUp = async (req, res) => {
+  try {
+    const { Username, Password, Phone, Email } = req.body;
+    //ktra Username
+    const checkUsername = await User.findOne({ where: { Username } });
+    if (checkUsername) {
+      return res.status(400).send("username already exists");
+    }
+    //ktra email
+    const checkEmail = await User.findOne({ where: { Email } });
+    if (checkEmail) {
+      return res.status(400).send("email already exists");
+    }
+    //tạo chuỗi ngẫu nhiên
+    const salt = bcryptjs.genSaltSync(10);
+    //mã hóa passs + salt
+    const hashPass = bcryptjs.hashSync(Password, salt);
+    // tạo user
+    await User.create({
+      Username,
+      Password: hashPass,
+      Phone,
+      Role: false,
+      Email,
+      Address: null,
+    });
+    //tạo payload cho token
+    payload = {
+      Username,
+      Phone,
+      Role: false,
+      Email,
+      Address: null,
+    };
+    //tạo secret key
+    const secretKey = "DOANXEM";
+    //tạo token
+    const token = jwt.sign(payload, secretKey, { expiresIn: 10 * 60 * 60 });
+    return res.status(200).send({
+      message: "signup success",
+      token,
+      userInfo: payload,
+    });
+  } catch (error) {
+    return res.status(500).send(error);
   }
 };
 
 module.exports = {
   signIn,
+  signUp
 };

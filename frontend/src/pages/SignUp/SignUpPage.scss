@@ -1,53 +1,112 @@
-$mainColor: #ff105f;
+$mainColor: #3d4066;
 .SignUpContainer {
-    // background-color: rgba(179, 25, 133, 0.472);
-    height: 300px;
-    margin-top: 200px;
-    padding: 50px 200px;
-    .SignUpContent {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3d4066;
+  .SignUpSection {
+    width: 50%;
+    gap: 2rem;
+    padding: 5% 0;
+    //
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    //
+    box-shadow: 0 0 15px 17px rgba(255, 255, 255, 0.397);
+    font-family: "Nunito", sans-serif;
+    border-radius: 5%;
+    //
+    background-image: url(../../Img/bg-login.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    .SignUpNavigation {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 0.75em;
+      a {
+        font-size: 1.25rem;
+        text-decoration: none;
+        color: $mainColor;
+        font-weight: 600;
+      }
+      .btn {
+        font-size: 0.75rem;
         border: 1px solid $mainColor;
+      }
+      .btn-sign-up {
+        background-color: $mainColor;
+        color: white;
+      }
+    }
+    .SignUpContent {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      gap: 20px;
+      //   padding: 1.5em 2rem;
+      background-color: rgba(255, 255, 255, 0.397);
+      border-radius: 10%;
+      padding: 1.5rem 0;
+      h4 {
+        color: $mainColor;
+      }
+      .SignUpInputSection {
+        margin: 0.25rem 3rem;
+        .SignUpInput {
+          position: relative;
+          i {
+            position: absolute;
+            left: 10px;
+            bottom: 5px;
+            font-size: 25px;
+            border-right: 10;
+            color: $mainColor;
+          }
+          input {
+            display: block;
+            padding: 5px 0;
+            padding-left: 45px;
+            width: 100%;
+            outline: none;
+            background-color: transparent;
+          }
+          span {
+            position: absolute;
+            color: red;
+            font-size: 2rem;
+            right: 5%;
+            top: 0;
+            font-weight: 900px;
+          }
+        }
+      }
+
+      .SignUpSubmit {
         display: flex;
         flex-direction: column;
-        flex-wrap: wrap;
-        gap: 20px;
-        padding: 20px 140px;
-        box-shadow: 0 0 15px 17px #ff24991f;
-        h4{
-            color: $mainColor;
+        button {
+          margin: 0.5rem 3rem;
+          border: none;
+          outline: none;
+          color: white;
+          padding: 2% 0;
+          border-radius: 10px;
+          background: $mainColor;
         }
-        .SignUpInput{
-            position: relative;
-            i{
-                position: absolute;
-                left: 10px;
-                bottom: 5px;
-                font-size: 25px;
-                border-right: 10;
-                color: $mainColor;
-            }
-            input{
-                display:block;
-                padding: 5px 0;
-                padding-left: 45px;
-                width: 100%;
-                outline: none;
-            }
+        a {
+          margin: 1% 0;
+          color: $mainColor;
+          text-decoration: underline;
+          font-size: 1rem;
+          font-weight: bold;
         }
-        span{
-            color: red;
-            font-size: 12px;
-        }
-        .SignUpSubmit{
-            text-align: center;
-            button{
-                color: white;
-                border-radius: 20px;
-                padding: 10px 0;
-                width: 100%;
-                border: none;
-                outline: none;
-                background: linear-gradient(to right, #ff105f, #ffad06);
-            }
-        }
+      }
     }
+  }
 }

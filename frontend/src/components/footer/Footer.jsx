@@ -1,5 +1,6 @@
 import React from "react";
-import "./Footer.css";
+import "./Footer.scss";
+import { Link } from 'react-router-dom';
 function Footer() {
   return (
     <div className="footer">
@@ -7,13 +8,13 @@ function Footer() {
         <img className="logo" src="./Img/logo.png" alt="" />
         <ul>
           <li>
-            <a href="/">Trang Chủ</a>
+            <Link to="/">Trang Chủ</Link>
           </li>
           <li>
-            <a href="/">Sản Phẩm</a>
+            <Link to="/list-product">Sản Phẩm</Link>
           </li>
           <li>
-            <a href="/">Liên Hệ</a>
+            <Link to="/contact">Liên Hệ</Link>
           </li>
         </ul>
         <div>
@@ -23,12 +24,12 @@ function Footer() {
         <div>
           Theo Dõi chúng tôi
           <div className="social">
-            <a href="/">
+            <Link to="/">
               <i className="fab fa-facebook-square"></i>
-            </a>
-            <a href="/">
+            </Link>
+            <Link to="/">
               <i className="fab fa-youtube-square"></i>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

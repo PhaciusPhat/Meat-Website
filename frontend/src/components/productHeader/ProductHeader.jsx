@@ -1,13 +1,11 @@
 import React from "react";
-import "./ProductHeader.css";
+import "./ProductHeader.scss";
+import swal from "sweetalert";
+import { Link } from "react-router-dom";
 function ProductHeader() {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const checkSignIn = () => {
-    let Username = undefined;
-    if (localStorage.Username !== undefined) {
-      Username = JSON.parse(localStorage.Username);
-    }
-
-    if (Username === undefined) {
+    if (userInfo === null) {
       return (
         <a href="/sign-in">
           <i className="fa fa-user" aria-hidden="true"></i> Đăng nhập
@@ -19,22 +17,21 @@ function ProductHeader() {
           <li>
             <a href="/user">
               <i className="fa fa-user" aria-hidden="true"></i>
-              <span> Xin Chào {Username}</span>
+              <span> Xin Chào {userInfo.Username}</span>
             </a>
           </li>
           <li>
-            <a
-              href="/"
+            <Link
+              to="/list-product"
               onClick={() => {
                 localStorage.removeItem("token");
-                localStorage.removeItem("Username");
-                localStorage.removeItem("id");
-                localStorage.removeItem("Role");
+                localStorage.removeItem("userInfo");
+                window.location.reload()
               }}
             >
               <i className="fas fa-sign-out-alt"></i>
               <span> Đăng xuất</span>
-            </a>
+            </Link>
           </li>
         </>
       );
@@ -43,24 +40,24 @@ function ProductHeader() {
 
   const checkCart = () => {
     let direct = "";
-    if (localStorage.Username !== undefined) {
+    if (userInfo !== null) {
       direct = "/cart";
     } else {
       direct = "/list-product";
     }
     return (
       <li>
-        <a
-          href={direct}
+        <Link
+          to={direct}
           onClick={() => {
-            if (localStorage.Username === undefined) {
-              alert("Vui lòng đăng nhập");
+            if (userInfo === null) {
+              swal("", "Vui lòng đăng nhập", "warning");
               window.event.preventDefault();
             }
           }}
         >
           <i className="fas fa-shopping-cart"></i> Giỏ Hàng
-        </a>
+        </Link>
       </li>
     );
   };
@@ -70,19 +67,19 @@ function ProductHeader() {
       <div className="container productHeader">
         <ul>
           <li>
-            <a className="imgLogo" href="/list-product">
+            <Link className="imgLogo" to="/list-product">
               <img src="./Img/logo.png" alt="logo" />
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/">
+            <Link to="/">
               <i className="fa fa-home" aria-hidden="true"></i> Trang chủ
-            </a>
+            </Link>
           </li>
           {checkSignIn()}
           {checkCart()}
           <li>
-            <p style={{ marginTop: "15px"}}>
+            <p style={{ marginTop: "15px" }}>
               <i className="fas fa-headphones-alt"></i> 1800 6828
             </p>
           </li>

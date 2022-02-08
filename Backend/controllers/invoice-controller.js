@@ -1,3 +1,4 @@
+const { makeid } = require("../general-variable");
 const { Invoice, User, Product, InvoiceDetail, Cart } = require("../models");
 
 const getInvoiceList = async (req, res) => {
@@ -11,10 +12,10 @@ const getInvoiceList = async (req, res) => {
 
 const getUserInvoiceList = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { Username } = req.query;
     const InvoiceList = await Invoice.findAll({
       where: {
-        UserId: id,
+        Username,
       },
     });
     return res.status(200).send(InvoiceList);
@@ -25,19 +26,16 @@ const getUserInvoiceList = async (req, res) => {
 
 const getInvoiceDetail = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { InvoiceId } = req.query;
     const invoiceDetail = await InvoiceDetail.findAll({
       where: {
-        InvoiceId: id,
+        InvoiceId,
       },
       include: {
         model: Product,
       },
     });
-    if (invoiceDetail) {
-      return res.status(200).send(invoiceDetail);
-    }
-    return res.status(404).send("not-found");
+    return res.status(200).send(invoiceDetail);
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -46,11 +44,10 @@ const getInvoiceDetail = async (req, res) => {
 const createInvoice = async (req, res) => {
   try {
     //lấy thông tin
-    const UserId = req.user.id;
+    const { Username } = req.user;
     const {
       InvoiceTotalMoney,
       VoucherId,
-      InvoiceBuyDate,
       Address,
       //lấy ds sản phẩm mua
       productList,
@@ -60,7 +57,7 @@ const createInvoice = async (req, res) => {
     //kiểm tra số lương trong kho
     let errorProduct = [];
     productList.forEach((element) => {
-      let temp = ProductList.find((e) => e.id === element.ProductId);
+      let temp = ProductList.find((e) => e.ProductId === element.ProductId);
       if (temp.ProductNumber < element.Number) {
         errorProduct.push(temp);
       }
@@ -69,35 +66,33 @@ const createInvoice = async (req, res) => {
       return res.status(400).send(errorProduct);
     }
     //tạo hóa đơn mới
+    const invoiceID = "IV_" + makeid(10);
     await Invoice.create({
-      UserId,
+      InvoiceId: invoiceID,
+      Username,
       VoucherId,
       InvoiceTotalMoney,
-      InvoiceBuyDate,
       Address,
     });
-    //lấy id của hóa đơn vừa tạo
-    const InvoiceList = await Invoice.findAll();
-    const invoiceID = InvoiceList[InvoiceList.length - 1].id;
 
     productList.forEach(async (element) => {
       //xóa ds sản phẩm mua trong giỏ hàng
       element.InvoiceId = invoiceID;
       await Cart.destroy({
         where: {
-          UserId,
+          Username,
           ProductId: element.ProductId,
         },
       });
       //trừ so luong sp trong data
-      let temp = ProductList.find((e) => e.id === element.ProductId);
+      let temp = ProductList.find((e) => e.ProductId === element.ProductId);
       await Product.update(
         {
           ProductNumber: temp.ProductNumber - element.Number,
         },
         {
           where: {
-            id: element.ProductId,
+            ProductId: element.ProductId,
           },
         }
       );
@@ -105,8 +100,9 @@ const createInvoice = async (req, res) => {
     //thêm ds sản phẩm mua vào chi tiết hóa đơn
     await InvoiceDetail.bulkCreate(productList);
 
-    return res.status(200).send(InvoiceList);
+    return res.status(200).send("create success");
   } catch (error) {
+    console.log(error);
     return res.status(500).send(error);
   }
 };

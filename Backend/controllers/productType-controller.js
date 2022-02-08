@@ -1,3 +1,4 @@
+const { makeid } = require("../general-variable");
 const { ProductType } = require("../models");
 
 const getProductTypeList = async (req, res) => {
@@ -11,10 +12,10 @@ const getProductTypeList = async (req, res) => {
 
 const getProductTypeDetail = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { ProductTypeId } = req.query;
     const ProductTypeDetail = await ProductType.findOne({
       where: {
-        id,
+        ProductTypeId,
       },
     });
     if (ProductTypeDetail) {
@@ -29,13 +30,18 @@ const getProductTypeDetail = async (req, res) => {
 
 const createProductType = async (req, res) => {
   try {
-    const { TypeName } = req.body;
-    const checkTypeName = await ProductType.findOne({ where: { TypeName } });
+    const { ProductTypeName } = req.body;
+    const checkTypeName = await ProductType.findOne({
+      where: { ProductTypeName },
+    });
     if (checkTypeName) {
-      return res.status(400).send("đã có loại sp này");
+      return res.status(400).send("already exists this name");
     }
-    const ProductTypeDetail = await ProductType.create({ TypeName });
-    return res.status(200).send(ProductTypeDetail);
+    await ProductType.create({
+      ProductTypeName,
+      ProductTypeId: "PDT_" + makeid(10),
+    });
+    return res.status(200).send("create success");
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -43,19 +49,20 @@ const createProductType = async (req, res) => {
 
 const updateProductType = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { TypeName } = req.body;
-    const checkTypeName = await ProductType.findOne({ where: { TypeName } });
+    const { ProductTypeId } = req.query;
+    const { ProductTypeName } = req.body;
+    const checkTypeName = await ProductType.findOne({
+      where: { ProductTypeName },
+    });
     if (checkTypeName) {
-      return res.status(400).send("đã có loại sp này");
+      return res.status(400).send("already exists this name");
     }
-    await ProductType.update(TypeName, {
+    await ProductType.update(ProductTypeName, {
       where: {
-        id,
+        ProductTypeId,
       },
     });
-    const ProductTypeList = await ProductType.findAll();
-    return res.status(200).send(ProductTypeList);
+    return res.status(200).send("update success");
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -63,16 +70,17 @@ const updateProductType = async (req, res) => {
 
 const deleteProductType = async (req, res) => {
   try {
-    const { id } = req.params;
-    const checkTypeName = await ProductType.findOne({ where: { id } });
+    const { ProductTypeId } = req.query;
+    const checkTypeName = await ProductType.findOne({
+      where: { ProductTypeId },
+    });
     if (checkTypeName) {
       await ProductType.destroy({
         where: {
-          id,
+          ProductTypeId,
         },
       });
-      const ProductTypeList = await ProductType.findAll();
-      return res.status(200).send(ProductTypeList);
+      return res.status(200).send("delete success");
     }
     return res.status(404).send("not found");
   } catch (error) {

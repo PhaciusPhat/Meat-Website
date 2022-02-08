@@ -46,7 +46,13 @@
                     button {
                         outline: none;
                     }
+                    .btnChangeNumber{
+                        padding: 0 5px;
+                    }
                     .delCart{
+                        background-color: red;
+                        border: none;
+                        color: white;
                         width: 100%;
                     }
                 }

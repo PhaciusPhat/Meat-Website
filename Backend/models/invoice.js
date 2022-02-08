@@ -1,36 +1,31 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-  class Invoice extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-      Invoice.belongsTo(models.User, {
-        foreignKey: "UserId",
-      });
-      Invoice.hasMany(models.InvoiceDetail, {
-        foreignKey: "InvoiceId",
-      });
-      Invoice.belongsTo(models.Voucher, {
-        foreignKey: "VoucherId",
-      });
-    }
-  };
-  Invoice.init({
-    UserId: DataTypes.INTEGER,
-    VoucherId: DataTypes.INTEGER,
+  const Invoice = sequelize.define("Invoice", {
+    InvoiceId: {
+      primaryKey: true,
+      type: DataTypes.STRING,
+    },
+    Username: DataTypes.STRING,
+    VoucherCode: DataTypes.STRING,
     InvoiceTotalMoney: DataTypes.INTEGER,
     InvoiceBuyDate: DataTypes.DATE,
-    Address: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Invoice',
+    Address: DataTypes.STRING,
   });
+
+  Invoice.associate = (models) => {
+    Invoice.belongsTo(models.User, {
+      foreignKey: "Username",
+      as: "User",
+    });
+    Invoice.hasMany(models.InvoiceDetail, {
+      foreignKey: "InvoiceId",
+      as: "InvoiceDetail",
+    });
+    Invoice.belongsTo(models.Voucher, {
+      foreignKey: "VoucherCode",
+      as: "Voucher",
+    });
+  };
+
   return Invoice;
 };

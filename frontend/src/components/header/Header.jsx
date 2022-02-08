@@ -1,47 +1,51 @@
 import React from "react";
-import "./Header.css";
+import "./Header.scss";
+import { Link } from 'react-router-dom';
 function Header() {
   const checkAmin = () => {
-    if(localStorage.Role===undefined) return;
-    const Role = JSON.parse(localStorage.Role);
-    console.log(Role);
-    if (Role === "admin") {
-      return <li>
-        <a className="headerNav" href="/super-admin">
-            QUẢN LÝ
-          </a>
-      </li>
-    } else{
-      return;
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (userInfo === null) return;
+    else {
+      if (userInfo.Role === true) {
+        return (
+          <li>
+            <Link className="headerNav" to="/super-admin">
+              QUẢN LÝ
+            </Link>
+          </li>
+        );
+      } else {
+        return;
+      }
     }
   };
   return (
     <header>
       <ul className="container">
         <li>
-          <a className="headerNav" href="/">
+          <Link className="headerNav" to="/">
             TRANG CHỦ
-          </a>
+          </Link>
         </li>
         <li>
-          <a className="headerNav" href="/story">
+          <Link className="headerNav" to="/story">
             CÂU CHUYỆN MEATFRESH
-          </a>
+          </Link>
         </li>
         <li>
-          <a className="imgLogo" href="/">
+          <Link className="imgLogo" to="/">
             <img src="./Img/logo.png" alt="logo" />
-          </a>
+          </Link>
         </li>
         <li>
-          <a className="headerNav" href="/list-product">
+          <Link className="headerNav" to="/list-product">
             SẢN PHẨM
-          </a>
+          </Link>
         </li>
         <li>
-          <a className="headerNav" href="/contact">
+          <Link className="headerNav" to="/contact">
             LIÊN HỆ
-          </a>
+          </Link>
         </li>
         {checkAmin()}
       </ul>

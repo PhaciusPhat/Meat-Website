@@ -1,5 +1,5 @@
-import "./ListProduct.css";
-
+import "./ListProduct.scss";
+import swal from "sweetalert";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,13 +17,16 @@ function ListProductPage() {
     (state) => state.productReducer.productTypeList
   );
   const productList = useSelector((state) => state.productReducer.productList);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const renderProductTypeContainer = () => {
-    return productTypeList.map((productType) => {
+    return productTypeList?.map((productType) => {
       return (
-        <div key={productType.id} className="productType">
-          <h4>{productType.TypeName}</h4>
-          <div className="productList">{renderProductList(productType.id)}</div>
+        <div key={productType.ProductTypeId} className="productType">
+          <h4>{productType.ProductTypeName}</h4>
+          <div className="productList">
+            {renderProductList(productType.ProductTypeId)}
+          </div>
         </div>
       );
     });
@@ -40,35 +43,37 @@ function ListProductPage() {
         disabled = false;
         content = "Thêm vào giỏ hàng";
       }
-      if (product.TypeId === id) {
+      if (product.ProductTypeId === id) {
         return (
-          <div className="product" key={product.id}>
+          <div className="product" key={product.ProductId}>
             <img src={product.ProductImage} alt="" />
             <p className="name">{product.ProductName}</p>
             <p className="price">{product.ProductPrice}VNĐ</p>
             <button
               disabled={disabled}
-              onClick={() => addProductIntoCart(product.id)}
+              onClick={() => addProductIntoCart(product.ProductId)}
             >
               {content}
             </button>
           </div>
         );
+      } else {
+        return <div key={product.ProductId} style={{ display: "none" }}></div>;
       }
     });
   };
   const addProductIntoCart = (id) => {
-    if (localStorage.Username !== undefined) {
+    if (userInfo !== null) {
       dispatch(addCartAction(id, history));
     } else {
-      alert("Vui lòng đăng nhập");
+      swal("", "Vui lòng đăng nhập", "warning");
     }
   };
 
   useEffect(() => {
     dispatch(getProductListAction());
     dispatch(getProductTypeListAction());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

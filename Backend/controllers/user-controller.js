@@ -4,18 +4,18 @@ const bcryptjs = require("bcryptjs");
 const getListUser = async (req, res) => {
   try {
     const listUser = await User.findAll();
-    res.status(200).send(listUser);
+    return res.status(200).send(listUser);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
 
 //lấy chi tiết user
 const getUserDetail = async (req, res) => {
   try {
-    const { id } = req.user;
+    const { Username } = req.query;
     const userDetail = await User.findOne({
-      where: { id },
+      where: { Username },
     });
     if (userDetail) {
       return res.status(200).send(userDetail);
@@ -23,23 +23,23 @@ const getUserDetail = async (req, res) => {
       return res.status(404).send("not found");
     }
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
 
 //tạo user
 const createUser = async (req, res) => {
   try {
-    const { Username, Password, Phone, Role, Email, Address } = req.body;
+    const { Username, Password, Phone, Email } = req.body;
     //ktra Username
     const checkUsername = await User.findOne({ where: { Username } });
     if (checkUsername) {
-      return res.status(400).send("đã tồn tại username");
+      return res.status(400).send("username already exists");
     }
     //ktra email
     const checkEmail = await User.findOne({ where: { Email } });
     if (checkEmail) {
-      return res.status(400).send("đã tồn tại email");
+      return res.status(400).send("email already exists");
     }
     //tạo chuỗi ngẫu nhiên
     const salt = bcryptjs.genSaltSync(10);
@@ -49,46 +49,48 @@ const createUser = async (req, res) => {
       Username,
       Password: hashPass,
       Phone,
-      Role,
+      Role: false,
       Email,
-      Address,
+      Address: null,
     });
-    res.status(200).send({ message: "Tạo thành công!" });
+    return res.status(200).send({ message: "create success!" });
   } catch (error) {
-    res.status(500).send(error);
+    console.log(error);
+    return res.status(500).send(error);
   }
 };
 
 //xóa user
 const deleteUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { Username } = req.query;
     const userDetail = await User.findOne({
-      where: { id },
+      where: { Username },
     });
     if (userDetail) {
       await User.destroy({
         where: {
-          id,
+          Username,
         },
       });
-      const list = await User.findAll();
-      res.status(200).send(list);
+      return res.status(200).send("delete success");
     } else {
       return res.status(404).send("not found");
     }
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
 
 //cập nhật user
 const updateUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { Username } = req.query;
     const { Phone, Role, Email, Address } = req.body;
+    const newRole = Role === undefined ? false : Role;
+    console.log(newRole);
     const userDetail = await User.findOne({
-      where: { id },
+      where: { Username },
     });
 
     if (userDetail) {
@@ -96,28 +98,28 @@ const updateUser = async (req, res) => {
         //ktra email
         const checkEmail = await User.findOne({ where: { Email } });
         if (checkEmail) {
-          return res.status(400).send("đã tồn tại email");
+          return res.status(400).send("email already exists");
         }
       }
       await User.update(
-        { Phone, Role, Email, Address },
+        { Phone, Role: newRole, Email, Address },
         {
           where: {
-            id,
+            Username,
           },
         }
       );
-      const list = await User.findAll();
-      res.status(200).send(list);
+      return res.status(200).send("update success");
     } else {
       return res.status(404).send("not found");
     }
   } catch (error) {
-    res.status(500).send(error);
+    console.log(error);
+    return res.status(500).send(error);
   }
 };
 
-//reset pass user
+//change pass user
 const changePass = async (req, res) => {
   try {
     const { Username, Password, NewPassword } = req.body;
@@ -142,17 +144,15 @@ const changePass = async (req, res) => {
             where: { Username },
           }
         );
-        const list = await User.findAll();
-        res.status(200).send((list).toString());
+        return res.status(200).send("change pass success");
       } else {
-        return res.status(400).send("sai mật khẩu");
+        return res.status(400).send("wrong password");
       }
     } else {
       return res.status(404).send("not found");
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
 

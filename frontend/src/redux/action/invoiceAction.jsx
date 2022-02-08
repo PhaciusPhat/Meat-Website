@@ -1,10 +1,11 @@
 import axios from "axios";
 import { GET_INVOICE_LIST } from "./../const/reduxConst";
+import swal from 'sweetalert';
 
 export const buyItemAction = (obj) => {
   return async (dispatch) => {
     try {
-      const token = JSON.parse(localStorage.token);
+      const token = localStorage.getItem("token");
       await axios({
         method: "post",
         headers: {
@@ -18,9 +19,9 @@ export const buyItemAction = (obj) => {
     } catch (error) {
       if (error) {
         if (error.response.status == 400) {
-          alert("Số lượng hàng tồn kho không đủ!!!");
+          swal("", "Số lượng hàng tồn kho không đủ!!!", "error");
         } else {
-          alert("Lỗi");
+          swal("", "Server có vấn đề", "error");
         }
       }
     }

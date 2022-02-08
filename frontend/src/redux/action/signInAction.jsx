@@ -1,6 +1,6 @@
 import axios from "axios";
 import { SignIn } from "../const/reduxConst";
-
+import swal from "sweetalert";
 export const signInAction = (account, history) => {
   return async (dispatch) => {
     try {
@@ -9,24 +9,23 @@ export const signInAction = (account, history) => {
         method: "POST",
         data: account,
       });
-      const { message, token, id, Username, Role } = res.data;
-      alert(message);
-      localStorage.setItem("token", JSON.stringify(token));
-      localStorage.setItem("id", JSON.stringify(id));
-      localStorage.setItem("Username", JSON.stringify(Username));
-      localStorage.setItem("Role", JSON.stringify(Role));
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("userInfo",  JSON.stringify(res.data.userInfo));
       dispatch({
         type: SignIn,
         payload: res.data,
       });
-      console.log("localStorage: ", localStorage);
-      history.push("/list-product");
+      swal("", "Đăng Nhập Thành Công", "success").then(() => {
+        history.push("/list-product");
+      });
     } catch (error) {
       if (error !== undefined) {
         if (error.response.status === 404) {
-          alert("Không tìm thấy tài khoản của bạn");
+          swal("", "Không Tìm Thấy Tài Khoản Của Bạn", "error");
         } else if (error.response.status === 400) {
-          alert("Nhập mật khẩu sai");
+          swal("", "Mật Khẩu Không Đúng", "error");
+        } else {
+          swal("", "Server Đang Cố Vấn Đề", "error");
         }
       }
     }
