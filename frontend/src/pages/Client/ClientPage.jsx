@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../components/footer/Footer";
 import { getDetailAcc, updateInfo, updatePass } from "../../redux/action/accountAction";
 import ProductHeader from "./../../components/productHeader/ProductHeader";
-import "./ClientPage.css";
+import "./ClientPage.scss";
 function ClientPage() {
   const dispatch = useDispatch();
   useEffect(() => {

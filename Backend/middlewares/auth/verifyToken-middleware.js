@@ -28,7 +28,7 @@ const authorize = (req, res, next) => {
   try {
     const { user } = req;
     console.log(user.Role);
-    if (user.Role != "admin") {
+    if (user.Role != true) {
       res.status(403).send({ message: "bạn ko có quyền" });
     } else {
       next();

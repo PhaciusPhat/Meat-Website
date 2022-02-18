@@ -7,7 +7,7 @@ import {
   getProductTypeListAction,
   updateProductAction,
 } from "../../redux/action/productAction";
-import "./AdminProduct.css";
+import "./AdminProduct.scss";
 function AdminProduct() {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productReducer.productList);
@@ -408,9 +408,13 @@ function AdminProduct() {
 
   return (
     <div className="container-fluid">
-      <div className="AccountContent">
+      <div className="ProductContent">
         <h3>Quản Lý Sản Phẩm</h3>
-        <div className="InvoiceTable" style={{ height: "700px" }}>
+        <div className="find">
+          <input id="find" />
+          <button className="btn-danger">Tìm Kiếm theo tên</button>
+        </div>
+        <div className="InvoiceTable">
           <div className="item title">
             <p>Tên Sản Phẩm</p>
             <p>Hình Ảnh</p>

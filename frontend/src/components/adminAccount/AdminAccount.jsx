@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import "./AdminAccount.css";
+import "./AdminAccount.scss";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -119,7 +119,7 @@ function AdminAccount() {
           <div className="itemDiv">{account.Username}</div>
           <div className="itemDiv">{account.Email}</div>
           <div className="itemDiv">{account.Phone}</div>
-          <div className="itemDiv">{account.Role}</div>
+          <div className="itemDiv">{account.Role ? "Quản trị viên" : "Khách Hàng"}</div>
           <div className="itemDiv">
             <button
               className="btn btn-info mr-1"
@@ -289,10 +289,10 @@ function AdminAccount() {
       <div className="AccountContent">
         <h3>Quản Lý Tài Khoản</h3>
         <div className="find">
-          <input id="find" placeholder="nhập username cần tìm" />
-          <button onClick={findAcc}>Tìm</button>
+          <input id="find" />
+          <button className="btn-danger" onClick={findAcc}>Tìm Kiếm theo tên</button>
         </div>
-        <div className="FindTable">
+        {/* <div className="FindTable">
           <div className="item title">
             <p>Username</p>
             <p>Email</p>
@@ -301,7 +301,7 @@ function AdminAccount() {
             <p>Chức Năng</p>
           </div>
           {renderFound()}
-        </div>
+        </div> */}
         <div className="InvoiceTable">
           <div className="item title">
             <p>Username</p>

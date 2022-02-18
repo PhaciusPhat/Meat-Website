@@ -4,7 +4,7 @@ import { GET_USER_DETAIL, GET_USER_LIST } from "../const/reduxConst";
 export const getAccountListAction = () => {
   return async (dispatch) => {
     try {
-      const token = JSON.parse(localStorage.token);
+      const token = localStorage.getItem("token");
       const res = await axios({
         method: "get",
         url: "http://localhost:2222/router/user/",
@@ -48,7 +48,7 @@ export const addAccAction = (account) => {
 export const delAccAction = (id) => {
   return async (dispatch) => {
     try {
-      const token = JSON.parse(localStorage.token);
+      const token = localStorage.getItem("token");
       await axios({
         method: "delete",
         url: `http://localhost:2222/router/user/${id}`,
@@ -67,7 +67,7 @@ export const delAccAction = (id) => {
 export const updateAccAction = (id, account) => {
   return async (dispatch) => {
     try {
-      const token = JSON.parse(localStorage.token);
+      const token = localStorage.getItem("token");
       await axios({
         method: "put",
         url: `http://localhost:2222/router/user/${id}`,
@@ -87,7 +87,7 @@ export const updateAccAction = (id, account) => {
 export const getDetailAcc = () => {
   return async (dispatch) => {
     try {
-      const token = JSON.parse(localStorage.token);
+      const token = localStorage.getItem("token");
       const res = await axios({
         method: "get",
         url: "http://localhost:2222/router/user/user-detail",
@@ -108,7 +108,7 @@ export const getDetailAcc = () => {
 export const updateInfo = (id, info) => {
   return async (dispatch) => {
     try {
-      const token = JSON.parse(localStorage.token);
+      const token = localStorage.getItem("token");
       await axios({
         method: "put",
         url: `http://localhost:2222/router/user/${id}`,
@@ -135,7 +135,7 @@ export const updatePass = (info) => {
   return async (dispatch) => {
     try {
       console.log(info);
-      const token = JSON.parse(localStorage.token);
+      const token = localStorage.getItem("token");
       await axios({
         method: "put",
         url: `http://localhost:2222/router/change-password/`,

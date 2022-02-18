@@ -1,4 +1,4 @@
-import "./ContactPage.css";
+import "./ContactPage.scss";
 
 import React from "react";
 import Header from "../../components/header/Header";

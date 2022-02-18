@@ -2,7 +2,7 @@ import React from "react";
 import AdminAccount from "../../components/adminAccount/AdminAccount";
 import AdminProduct from "../../components/adminProduct/AdminProduct";
 import AdminStatistics from "../../components/adminStatistics/AdminStatistics";
-import "./AdminPage.css";
+import "./AdminPage.scss";
 function AdminPage() {
   return (
     <>
@@ -38,7 +38,7 @@ function AdminPage() {
             <div className="adminHeader">
               <ul>
                 <li>
-                  <p>Xin Chào {JSON.parse(localStorage.Username)}</p>
+                  <p>Xin Chào xxx</p>
                 </li>
                 <li>
                   <a

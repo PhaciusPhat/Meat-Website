@@ -1,9 +1,7 @@
 .StatisticsContent {
-    margin: 20px;
-    background-color: #ff106080;
-    box-shadow: 0 0 15px #ffad06;
-    height: 850px;
-    border-radius: 20px;
+    background-color: rgba(190, 100, 100, 0.789);
+    height: 860px;
+    // border-radius: 20px;
     padding: 10px 20px;
     color: white;
     h3 {
@@ -14,20 +12,24 @@
         margin-top: 20px;
         display: flex;
         justify-content: space-around;
-        gap: 20px;
+        // gap: 20px;
         .item {
-            height: 200px;
+            // height: 200px;
             width: 500px;
-            background: linear-gradient(to bottom right, #ffad06, yellow);
-            border-radius: 50px;
+            border: 1px solid white;
             padding: 30px;
-            font-size: 40px;
-            font-weight: 600;
+            font-size: 20px;
             text-align: center;
         }
     }
+    .find-tool{
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
     .InvoiceTable {
-        margin-top: 30px;
+        margin-top: 20px;
         border: 1px solid white;
         height: 530px;
         overflow-y: scroll;

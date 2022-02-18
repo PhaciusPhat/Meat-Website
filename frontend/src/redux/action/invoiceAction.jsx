@@ -1,6 +1,6 @@
 import axios from "axios";
 import { GET_INVOICE_LIST } from "./../const/reduxConst";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 export const buyItemAction = (obj) => {
   return async (dispatch) => {
@@ -31,7 +31,8 @@ export const buyItemAction = (obj) => {
 export const getAllInvoiceAction = () => {
   return async (dispatch) => {
     try {
-      const token = JSON.parse(localStorage.token);
+      const token = localStorage.getItem("token");
+      console.log(token);
       const res = await axios({
         method: "get",
         url: "http://localhost:2222/router/invoice/",
@@ -39,6 +40,7 @@ export const getAllInvoiceAction = () => {
           token: token,
         },
       });
+      console.log(res, token);
       dispatch({
         type: GET_INVOICE_LIST,
         payload: res.data,

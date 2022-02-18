@@ -1,9 +1,8 @@
 .AccountContent {
-    margin: 20px;
-    background-color: #ff106080;
-    box-shadow: 0 0 15px #ffad06;
-    height: 850px;
-    border-radius: 20px;
+    // margin: 20px;
+    background-color: rgba(190, 100, 100, 0.789);
+    height: 860px;
+    // border-radius: 20px;
     padding: 10px 20px;
     color: white;
     h3 {
@@ -29,7 +28,7 @@
     .InvoiceTable {
         margin-top: 30px;
         border: 1px solid white;
-        height: 500px;
+        height: 650px;
         overflow-y: scroll;
         .item {
             display: flex;
