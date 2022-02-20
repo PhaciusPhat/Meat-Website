@@ -25,13 +25,13 @@ export const getAccountListAction = () => {
 export const addAccAction = (account) => {
   return async (dispatch) => {
     try {
-      const res = await axios({
+      await axios({
         url: "http://localhost:2222/router/user/",
         method: "POST",
         data: account,
       });
-      const { message } = res.data;
-      alert(message);
+      // const { message } = res.data;
+      alert("Thêm tài khoản thành công");
       window.location.reload();
     } catch (error) {
       if (error !== undefined) {
@@ -45,13 +45,13 @@ export const addAccAction = (account) => {
   };
 };
 
-export const delAccAction = (id) => {
+export const delAccAction = (Username) => {
   return async (dispatch) => {
     try {
       const token = localStorage.getItem("token");
       await axios({
         method: "delete",
-        url: `http://localhost:2222/router/user/${id}`,
+        url: `http://localhost:2222/router/user/?Username=${Username}`,
         headers: {
           token: token,
         },
@@ -64,13 +64,13 @@ export const delAccAction = (id) => {
   };
 };
 
-export const updateAccAction = (id, account) => {
+export const updateAccAction = (account) => {
   return async (dispatch) => {
     try {
       const token = localStorage.getItem("token");
       await axios({
         method: "put",
-        url: `http://localhost:2222/router/user/${id}`,
+        url: `http://localhost:2222/router/user/?Username=${account.Username}`,
         headers: {
           token: token,
         },
@@ -84,13 +84,13 @@ export const updateAccAction = (id, account) => {
   };
 };
 
-export const getDetailAcc = () => {
+export const getDetailAcc = (Username) => {
   return async (dispatch) => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios({
         method: "get",
-        url: "http://localhost:2222/router/user/user-detail",
+        url: `http://localhost:2222/router/user/user-detail/?Username=${Username}`,
         headers: {
           token: token,
         },
@@ -105,13 +105,13 @@ export const getDetailAcc = () => {
   };
 };
 
-export const updateInfo = (id, info) => {
+export const updateInfo = (Username, info) => {
   return async (dispatch) => {
     try {
       const token = localStorage.getItem("token");
       await axios({
         method: "put",
-        url: `http://localhost:2222/router/user/${id}`,
+        url: `http://localhost:2222/router/user/?Username=${Username}`,
         headers: {
           token: token,
         },
@@ -131,23 +131,25 @@ export const updateInfo = (id, info) => {
   };
 };
 
-export const updatePass = (info) => {
+export const updatePass = (info, history) => {
   return async (dispatch) => {
     try {
       console.log(info);
       const token = localStorage.getItem("token");
       await axios({
         method: "put",
-        url: `http://localhost:2222/router/change-password/`,
+        url: `http://localhost:2222/router/user/change-pass/`,
         headers: {
           token: token,
         },
         data: info,
       });
       alert("Thay Đổi mật khẩu thành công!!");
-      window.location.reload();
+      alert("Vui lòng đăng nhập lại");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userInfo");
+      history.push("/")
     } catch (error) {
-      console.log(error.response.data);
       if (error) {
         if (error.response.status === 400) {
           alert("Sai Mật Khẩu");

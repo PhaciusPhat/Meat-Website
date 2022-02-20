@@ -22,11 +22,10 @@ function ProductHeader() {
           </li>
           <li>
             <Link
-              to="/list-product"
+              to="/"
               onClick={() => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("userInfo");
-                window.location.reload()
               }}
             >
               <i className="fas fa-sign-out-alt"></i>

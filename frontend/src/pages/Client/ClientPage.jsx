@@ -1,15 +1,22 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../components/footer/Footer";
-import { getDetailAcc, updateInfo, updatePass } from "../../redux/action/accountAction";
+import {
+  getDetailAcc,
+  updateInfo,
+  updatePass,
+} from "../../redux/action/accountAction";
 import ProductHeader from "./../../components/productHeader/ProductHeader";
 import "./ClientPage.scss";
+import { useHistory } from "react-router";
 function ClientPage() {
   const dispatch = useDispatch();
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   useEffect(() => {
-    dispatch(getDetailAcc());
-  }, []);
+    dispatch(getDetailAcc(userInfo?.Username));
+  }, [dispatch]);
 
+  const history = useHistory();
   const userDetail = useSelector((state) => state.accountReducer.accountDetail);
 
   const submitUpdate = () => {
@@ -19,7 +26,7 @@ function ClientPage() {
       Email: document.getElementById("Email").value,
       Address: document.getElementById("Address").value,
     };
-    dispatch(updateInfo(userDetail.id, info));
+    dispatch(updateInfo(userDetail.Username, info));
   };
 
   const submitChange = () => {
@@ -28,7 +35,7 @@ function ClientPage() {
       Password: document.getElementById("old").value,
       NewPassword: document.getElementById("new").value,
     };
-    dispatch(updatePass(info));
+    dispatch(updatePass(info, history));
   };
 
   return (

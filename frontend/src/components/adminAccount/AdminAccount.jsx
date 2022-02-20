@@ -12,28 +12,34 @@ import {
 function AdminAccount() {
   const dispatch = useDispatch();
   const accountList = useSelector((state) => state.accountReducer.accountList);
-
+  const [accountNeedUpdate, setAccountNeedsUpdate] = useState(null);
   useEffect(() => {
     dispatch(getAccountListAction());
-  }, []);
+  }, [dispatch]);
 
+  const [selectedOpt, setSelectedOpt] = useState(false);
   const [account, setAccount] = useState({
     Username: "",
     Phone: "",
     Email: "",
-    Role: "",
+    // Role: "",
   });
   const [error, setError] = useState({
     Username: "",
     Phone: "",
     Email: "",
-    Role: "",
+    // Role: "",
   });
 
   function validateEmail(email) {
     const re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+  }
+
+  function validatePhone(phone) {
+    const re = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+    return re.test(phone);
   }
 
   const handleChange = (e) => {
@@ -75,15 +81,15 @@ function AdminAccount() {
             });
           }
         }
-        if (key === "Role") {
-          if (account[key] === "client" || account[key] === "admin") {
+        if (key === "Phone") {
+          if (!validatePhone(account[key])) {
+            temp[key] = "SDT sai định dạng";
+            check = false;
+          } else {
             setError({
               ...error,
               [key]: "",
             });
-          } else {
-            temp[key] = "Quyền là 'admin' hoặc 'client'";
-            check = false;
           }
         }
       }
@@ -98,212 +104,137 @@ function AdminAccount() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // console.log();
     if (validate()) {
       let newAccount = {
         ...account,
+        Role: Boolean(selectedOpt),
         Password: account.Username,
         Address: null,
       };
+      setSelectedOpt(false);
       dispatch(addAccAction(newAccount));
     }
   };
 
-  const delAcc = (id) => {
-    dispatch(delAccAction(id));
+  const delAcc = (Username) => {
+    dispatch(delAccAction(Username));
+  };
+
+  const chooseAccountNeedUpdate = (account) => {
+    setAccountNeedsUpdate(account);
   };
 
   const renderAccount = () => {
     return accountList.map((account) => {
       return (
-        <div className="item" key={account.id}>
+        <div className="item" key={account.Username}>
           <div className="itemDiv">{account.Username}</div>
           <div className="itemDiv">{account.Email}</div>
           <div className="itemDiv">{account.Phone}</div>
-          <div className="itemDiv">{account.Role ? "Quản trị viên" : "Khách Hàng"}</div>
+          <div className="itemDiv">
+            {account.Role ? "Quản trị viên" : "Khách Hàng"}
+          </div>
           <div className="itemDiv">
             <button
               className="btn btn-info mr-1"
               data-toggle="modal"
-              data-target={"#updateAcc" + account.id}
+              data-target={"#updateAcc"}
+              onClick={() => chooseAccountNeedUpdate(account)}
             >
               sửa
             </button>
             <button
               className="btn btn-danger"
-              onClick={() => delAcc(account.id)}
+              onClick={() => delAcc(account.Username)}
             >
               xóa
             </button>
+          </div>
+        </div>
+      );
+    });
+  };
 
-            {/* sửa */}
-            <div
-              className="modal fade"
-              id={"updateAcc" + account.id}
-              tabIndex={-1}
-              role="dialog"
-              aria-labelledby="modelTitleId"
-              aria-hidden="true"
-            >
-              <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <div className="modal-title text-dark">
-                      Cập nhật tài khoản
-                    </div>
-                    <button
-                      type="button"
-                      className="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">×</span>
-                    </button>
-                  </div>
-                  <div className="modal-body">
-                    <input
-                      onChange={updateChange}
-                      name="RoleUpdate"
-                      placeholder={account.Role}
-                      className="w-100"
-                    />
-                    <span className="text-danger" style={{ fontSize: 12 }}>
-                      {newError.RoleUpdate}
-                    </span>
-                  </div>
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      data-dismiss="modal"
-                    >
-                      Đóng
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-success"
-                      onClick={() => handleSubmitU(account.id)}
-                    >
-                      Cập nhật
-                    </button>
-                  </div>
-                </div>
-              </div>
+  const updateForm = () => {
+    {
+      /* sửa */
+    }
+    return (
+      <div
+        className="modal fade"
+        id={"updateAcc"}
+        tabIndex={-1}
+        role="dialog"
+        aria-labelledby="modelTitleId"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <div className="modal-title text-dark">Cập nhật tài khoản</div>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <label htmlFor="changeAcc">Quyền: </label>
+              <select
+                name="changeAcc"
+                id="changeAcc"
+                onChange={(e) => {
+                  setSelectedOpt(e.target.value);
+                }}
+                defaultValue={false}
+              >
+                <option value={false}>Khách Hàng</option>
+                <option value={true}>Quản trị</option>
+              </select>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Đóng
+              </button>
+              <button
+                type="button"
+                className="btn btn-success"
+                onClick={() => handleSubmitU(accountNeedUpdate)}
+              >
+                Cập nhật
+              </button>
             </div>
           </div>
         </div>
-      );
-    });
+      </div>
+    );
   };
 
-  const [newError, setNewError] = useState({
-    RoleUpdate: "",
-  });
+  const handleSubmitU = (account) => {
+    // console.log(, selectedOpt);
+    account = {
+      ...account,
+      Role: selectedOpt === 'true',
+    };
+    // console.log(account);
 
-  const [update, setUpdate] = useState({
-    RoleUpdate: "",
-  });
-
-  const validateU = () => {
-    let check = true;
-    let temp = { ...newError };
-    for (const key in update) {
-      if (update[key].trim() === "") {
-        check = false;
-        temp[key] = "Không được bỏ trống";
-      } else {
-        if (key === "RoleUpdate") {
-          if (update[key] === "client" || update[key] === "admin") {
-            setNewError({
-              ...newError,
-              [key]: "",
-            });
-          } else {
-            temp[key] = "Quyền là 'admin' hoặc 'client'";
-            check = false;
-          }
-        }
-      }
-    }
-    if (check === false) {
-      setNewError({
-        ...temp,
-      });
-    }
-    return check;
-  };
-
-  const handleSubmitU = (id) => {
-    if (validateU()) {
-      const index = accountList.findIndex((acc) => acc.id === id);
-      let newAccount = {
-        ...accountList[index],
-        Role: update.RoleUpdate,
-      };
-      dispatch(updateAccAction(id, newAccount));
-    }
-  };
-
-  const updateChange = (e) => {
-    const { name, value } = e.target;
-    setUpdate({
-      ...update,
-      [name]: value,
-    });
-  };
-
-  const [found, setFound] = useState({
-    found: [],
-  });
-
-  const findAcc = () => {
-    let temp = [];
-    const find = document.getElementById("find").value;
-    accountList.forEach((acc) => {
-      if (acc.Username.indexOf(find) !== -1) {
-        temp.push(acc);
-      }
-    });
-    setFound({
-      found: temp,
-    });
-  };
-
-  const renderFound = () => {
-    return found.found.map((account) => {
-      return (
-        <div className="item" key={account.id}>
-          <div className="itemDiv">{account.Username}</div>
-          <div className="itemDiv">{account.Email}</div>
-          <div className="itemDiv">{account.Phone}</div>
-          <div className="itemDiv">{account.Role}</div>
-          <div className="itemDiv">
-            Đang Cập Nhật
-          </div>
-        </div>
-      );
-    });
+    dispatch(updateAccAction(account));
   };
 
   return (
     <div className="container-fluid">
       <div className="AccountContent">
         <h3>Quản Lý Tài Khoản</h3>
-        <div className="find">
-          <input id="find" />
-          <button className="btn-danger" onClick={findAcc}>Tìm Kiếm theo tên</button>
-        </div>
-        {/* <div className="FindTable">
-          <div className="item title">
-            <p>Username</p>
-            <p>Email</p>
-            <p>Số Điện Thoại</p>
-            <p>Vai Trò</p>
-            <p>Chức Năng</p>
-          </div>
-          {renderFound()}
-        </div> */}
         <div className="InvoiceTable">
-          <div className="item title">
+          <div className="item title" id="list">
             <p>Username</p>
             <p>Email</p>
             <p>Số Điện Thoại</p>
@@ -371,12 +302,23 @@ function AdminAccount() {
                 <span>{error.Phone}</span>
               </div>
               <div>
-                <input
+                <label htmlFor="role">Chọn quyền: </label>
+                <select
+                  name="role"
+                  id="role"
+                  onChange={(e) => {
+                    setSelectedOpt(e.target.value);
+                  }}
+                >
+                  <option value={false}>Khách Hàng</option>
+                  <option value={true}>Quản trị</option>
+                </select>
+                {/* <input
                   onChange={handleChange}
                   name="Role"
                   placeholder="Quyền"
                 />
-                <span>{error.Role}</span>
+                <span>{error.Role}</span> */}
               </div>
             </div>
             <div className="modal-footer">
@@ -398,6 +340,8 @@ function AdminAccount() {
           </div>
         </div>
       </div>
+      {/* update */}
+      {updateForm()}
     </div>
   );
 }

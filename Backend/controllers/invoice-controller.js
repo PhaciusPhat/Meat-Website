@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { makeid } = require("../general-variable");
 const { Invoice, User, Product, InvoiceDetail, Cart } = require("../models");
 
@@ -15,7 +16,9 @@ const getUserInvoiceList = async (req, res) => {
     const { Username } = req.query;
     const InvoiceList = await Invoice.findAll({
       where: {
-        Username,
+        Username: {
+          [Op.substring]: Username,
+        },
       },
     });
     return res.status(200).send(InvoiceList);
@@ -27,16 +30,34 @@ const getUserInvoiceList = async (req, res) => {
 const getInvoiceDetail = async (req, res) => {
   try {
     const { InvoiceId } = req.query;
+    console.log("InvoiceId: ", InvoiceId);
     const invoiceDetail = await InvoiceDetail.findAll({
       where: {
         InvoiceId,
       },
       include: {
         model: Product,
+        as: "Product",
       },
     });
-    return res.status(200).send(invoiceDetail);
+    const result = {};
+    result.InvoiceId = InvoiceId;
+    result.ProductList = [];
+    result.TotalMoney = 0;
+    for (let i = 0; i < invoiceDetail.length; i++) {
+      result.TotalMoney +=
+        Number(invoiceDetail[i].Number) * Number(invoiceDetail[i].ProductPrice);
+      result.ProductList.push({
+        ProductId: invoiceDetail[i].ProductId,
+        Number: invoiceDetail[i].Number,
+        ProductPrice: invoiceDetail[i].ProductPrice,
+        ProductName: invoiceDetail[i].Product.ProductName,
+        ProductImage: invoiceDetail[i].Product.ProductImage,
+      });
+    }
+    return res.status(200).send(result);
   } catch (error) {
+    console.log("lỗi: ", error);
     return res.status(500).send(error);
   }
 };

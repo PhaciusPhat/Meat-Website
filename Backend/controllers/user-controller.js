@@ -30,7 +30,8 @@ const getUserDetail = async (req, res) => {
 //tạo user
 const createUser = async (req, res) => {
   try {
-    const { Username, Password, Phone, Email } = req.body;
+    const { Username, Password, Phone, Email, Role } = req.body;
+    console.log(Role)
     //ktra Username
     const checkUsername = await User.findOne({ where: { Username } });
     if (checkUsername) {
@@ -49,7 +50,7 @@ const createUser = async (req, res) => {
       Username,
       Password: hashPass,
       Phone,
-      Role: false,
+      Role: Role ? Role : false,
       Email,
       Address: null,
     });
@@ -87,12 +88,12 @@ const updateUser = async (req, res) => {
   try {
     const { Username } = req.query;
     const { Phone, Role, Email, Address } = req.body;
+    console.log(Phone, Role, Email, Address)
     const newRole = Role === undefined ? false : Role;
-    console.log(newRole);
     const userDetail = await User.findOne({
       where: { Username },
     });
-
+    console.log("userDetail: ", userDetail);
     if (userDetail) {
       if (Email !== userDetail.Email) {
         //ktra email
@@ -121,6 +122,7 @@ const updateUser = async (req, res) => {
 
 //change pass user
 const changePass = async (req, res) => {
+  console.log("???")
   try {
     const { Username, Password, NewPassword } = req.body;
     //kiểm tra user

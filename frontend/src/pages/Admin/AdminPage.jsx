@@ -1,9 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import AdminAccount from "../../components/adminAccount/AdminAccount";
 import AdminProduct from "../../components/adminProduct/AdminProduct";
 import AdminStatistics from "../../components/adminStatistics/AdminStatistics";
 import "./AdminPage.scss";
 function AdminPage() {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   return (
     <>
       <div className="container-fluid">
@@ -27,31 +29,29 @@ function AdminPage() {
                  Tài khoản
                 </a>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <a className="nav-link" data-toggle="tab" href="#product">
                 Sản Phẩm
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className="col-11 right">
             <div className="adminHeader">
               <ul>
                 <li>
-                  <p>Xin Chào xxx</p>
+                  <p>Xin Chào {userInfo?.Username}</p>
                 </li>
                 <li>
-                  <a
-                    href="/"
+                  <Link
+                    to="/"
                     onClick={() => {
                       localStorage.removeItem("token");
-                      localStorage.removeItem("Username");
-                      localStorage.removeItem("id");
-                      localStorage.removeItem("Role");
+                      localStorage.removeItem("userInfo");
                     }}
                   >
                     Đăng xuất
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -62,9 +62,9 @@ function AdminPage() {
               <div className="tab-pane fade" id="account">
                 <AdminAccount />
               </div>
-              <div className="tab-pane fade" id="product">
+              {/* <div className="tab-pane fade" id="product">
                 <AdminProduct/>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
